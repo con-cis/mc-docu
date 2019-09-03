@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!--script type="text/javascript" src="validate.js"></script-->
+    <!--script type="text/javascript">
+      window.onload = removeXMLInvalidChars;
+    </script-->
+  </head>
+  <style>
+    #meta {
+      margin-left: 3em;
+      margin-right: 3em;
+      margin-top: 1em;
+      float:inline-end;
+      text-align: right;
+      font-family:monospace;
+    }
+    table {
+      display: inline-table;
+      float: left;
+      margin-left: -1px;
+    }
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      font-family:monospace;
+    }
+    th, td {
+      padding: 15px;
+      text-align: left;
+      height: 30px;
+    }
+    table tr:nth-child(odd) {
+      background-color: #eee;
+    }
+    table tr:nth-child(even) {
+     background-color: #fff;
+    }
+    table th {
+      background-color: black;
+      color: white;
+    }
+    .button {
+      display: inline-block;
+      padding: 15px 25px;
+      font-size: 24px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      outline: none;
+      color: #fff;
+      background-color: #555555;
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 9px #999;
+    }
+
+    .button:hover {background-color: #555555}
+
+    .button:active {
+      background-color: #696969;
+      box-shadow: 0 5px #666;
+      transform: translateY(4px);
+    }
+    </style>
+<body>
+<div>
+<p><button type="button" class="button" onclick="loadXMLDoc()">Mirth Configuration</button></pS>
+<a id="meta"></a>
+</div>
+<br><br>
+<table class="table" id="channel"></table>
+<table class="table" id="transformer"></table>
+<table class="table" id="sourceConnector"></table>
+<table class="table" id="sourceConnectorProperties"></table>
+
+
+<script>
+function loadXMLDoc() {
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      getMetadata(this);
+      var channelCount = getChannel(this);
+      console.log(channelCount);
+      getTransformer(this, channelCount);
+      getSourceConnector(this);
+      getSourceProperties(this, channelCount);
+      console.log(channelCount);
+    }
+  };
+  xmlhttp.open("GET", "edited/23-07-2019-MirthBackup.xml", true);
+  xmlhttp.send();
+}
+function getMetadata(xml) {
+  var i;
+  var xmlDoc = xml.responseXML;
+  var date="Configuration Date of Mirth Backup XML File: <br> <br> ";
+  var x = xmlDoc.getElementsByTagName("serverConfiguration");
+  for (i = 0; i <x.length; i++) { 
+    date += x[i].getElementsByTagName("date")[0].childNodes[0].nodeValue;
+  }
+  document.getElementById("meta").innerHTML = date;
+}
+function getChannel(xml) {
+  var i;
+  var xmlDoc = xml.responseXML;
+  var table="<tr><th>Channel</th><th>Enabled</th></tr>";
+  var x = xmlDoc.getElementsByTagName("channel");
+  for (i = 0; i <x.length; i++) { 
+    table += "<tr><td>" +
+    x[i].getElementsByTagName("name")[0].childNodes[0].nodeValue +
+    "</td><td>" +
+    x[i].getElementsByTagName("enabled")[0].childNodes[0].nodeValue +
+    "</td></tr>";
+  }
+  var channelCount = x.length;
+  console.log(channelCount);
+  document.getElementById("channel").innerHTML = table;
+  return channelCount;
+}
+function getTransformer(xml, channelCount) {
+  var i;
+  var xmlDoc = xml.responseXML;
+  var table="<tr><th>inbound <br>Data Type</th><th>outbound <br>Data Type</th></tr>";
+  var x = xmlDoc.getElementsByTagName("sourceConnector");
+  console.log(channelCount);
+  for (i = 0; i <channelCount; i++) { 
+    table += "<tr><td>" +
+    x[i].getElementsByTagName("inboundDataType")[0].childNodes[0].nodeValue +
+    "</td><td>" +
+    x[i].getElementsByTagName("outboundDataType")[0].childNodes[0].nodeValue +
+    "</td></tr>";
+  }
+  document.getElementById("transformer").innerHTML = table;
+}
+function getSourceConnector(xml) {
+  var i;
+  var xmlDoc = xml.responseXML;
+  var table="<tr><th>Source <br> Connector</th></tr>";
+  var x = xmlDoc.getElementsByTagName("sourceConnector");
+  console.log(x);
+  for (i = 0; i <x.length; i++) { 
+    table += "<tr><td>" +
+    x[i].getElementsByTagName("transportName")[0].childNodes[0].nodeValue +
+    "</td></tr>";
+  }
+  document.getElementById("sourceConnector").innerHTML = table;
+}
+function getSourceProperties(xml, channelCount) {
+  var i;
+  var xmlDoc = xml.responseXML;
+  var table="<tr><th>Source <br> Connector Host</th></tr>";
+  var x = xmlDoc.getElementsByClassName("com.mirth.connect.connectors.file.FileReceiverProperties");
+  console.log(channelCount);
+  for (i = 0; i <x.length; i++) {
+    //schleife andersrum
+    //evtuell noch mit verschachtelter schleife probieren
+    if(x[i].getElementsByTagName("host")[0].childNodes[0].nodeValue!=null){
+        table += "<tr><td></td></tr>"
+    }
+    else{
+    table += "<tr><td>" +
+    x[i].getElementsByTagName("host")[0].childNodes[0].nodeValue +
+    "</td></tr>";
+    }
+  }
+  document.getElementById("sourceConnectorProperties").innerHTML = table;
+}
+</script>
+</body>
+</html>
