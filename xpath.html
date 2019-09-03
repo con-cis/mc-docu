@@ -42,22 +42,30 @@
       <a id="meta"></a>
 </div>
 <table id="table" class="minimalistBlack">
-  <tr>
-    <th>Channel</th> <!-- should start a new row with ever entry -->
-    <th>Enabled</th>
-    <th>inbound Data Type</th>
-    <th>outbound Data Type</th>
-    <th>Source Connector</th>
-    <th>Source Connector Host</th> <!-- should also match with corresponding channel -->
-  </tr>
-  <tr>
-    <td id="channel"></td>
-    <td id="enabled"></td>
-    <td id="inboundDataType"></td>
-    <td id="outboundDataType"></td>
-    <td id="tranportName"></td>
-    <td id="host"></td>
-  </tr>
+  <thead>
+      <tr>
+        <th>Channel</th> 
+        <th>Enabled</th>
+        <th>inbound Data Type</th>
+        <th>outbound Data Type</th>
+        <th>Source Connector</th>
+        <th>Source Connector Host</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr id="channel"> <!-- should write in new row -->
+    </tr>
+    <tr id="enabled">
+    </tr>
+    <tr id="inboundDataType">
+    </tr>
+    <tr id="outboundDataType">
+    </tr>
+    <tr id="tranportName">
+    </tr>
+    <tr id="host"> <!-- should write in corresponding channel line -->
+    </tr>
+  </tbody>
 </table>
 <script>
   var xhttp = new XMLHttpRequest();
@@ -73,7 +81,6 @@
   };
   xhttp.open("GET", "edited/23-07-2019-MirthBackup.xml", true); //your backup xml path here
   xhttp.send(); 
-
   function showResult(xml, path, head) {
     var txt = "";
     //console.log(path)
@@ -81,7 +88,7 @@
         var nodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
         var result = nodes.iterateNext();
         while (result) {
-            txt += result.childNodes[0].nodeValue + "<br>";
+            txt += "<td>" + result.childNodes[0].nodeValue + "</td>";
             result = nodes.iterateNext();
         }
     // Code For Internet Explorer
