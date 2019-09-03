@@ -71,7 +71,7 @@
         showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/properties/host", "host"); //doesnt match with channels when element is not in branch   
     }
   };
-  xhttp.open("GET", "edited/23-07-2019-MirthBackup.xml", true);
+  xhttp.open("GET", "edited/23-07-2019-MirthBackup.xml", true); //your backup xml path here
   xhttp.send(); 
 
   function showResult(xml, path, head) {
