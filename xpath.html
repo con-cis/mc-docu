@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+</head>
+<style>
+  table.minimalistBlack {
+    border: 3px solid #000000;
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;       
+  }
+  table.minimalistBlack td, table.minimalistBlack th {
+    border: 1px solid #000000;
+    padding: 5px 4px;
+  }
+  table.minimalistBlack tbody td {
+    font-size: 13px;
+  }
+  table.minimalistBlack tr:nth-child(even) {
+    background: #D0E4F5;
+  }
+  table.minimalistBlack thead {
+    background: #CFCFCF;
+    background: -moz-linear-gradient(top, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
+    background: -webkit-linear-gradient(top, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
+    background: linear-gradient(to bottom, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
+    border-bottom: 3px solid #000000;
+  }
+  table.minimalistBlack thead th {
+    font-size: 15px;
+    font-weight: bold;
+    color: #000000;
+    text-align: left;
+  }
+  table.minimalistBlack tfoot td {
+    font-size: 14px;
+  }       
+</style>
+ <body>
+  <div>
+      <a id="meta"></a>
+</div>
+<table id="table" class="minimalistBlack">
+  <tr>
+    <th>Channel</th> <!-- should start a new row with ever entry -->
+    <th>Enabled</th>
+    <th>inbound Data Type</th>
+    <th>outbound Data Type</th>
+    <th>Source Connector</th>
+    <th>Source Connector Host</th> <!-- should also match with corresponding channel -->
+  </tr>
+  <tr>
+    <td id="channel"></td>
+    <td id="enabled"></td>
+    <td id="inboundDataType"></td>
+    <td id="outboundDataType"></td>
+    <td id="tranportName"></td>
+    <td id="host"></td>
+  </tr>
+</table>
+<script>
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/name", "channel");
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/enabled", "enabled");
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/transformer/inboundDataType", "inboundDataType");
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/transformer/outboundDataType", "outboundDataType");
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/transportName", "tranportName");
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/properties/host", "host"); //doesnt match with channels when element is not in branch   
+    }
+  };
+  xhttp.open("GET", "edited/23-07-2019-MirthBackup.xml", true);
+  xhttp.send(); 
+
+  function showResult(xml, path, head) {
+    var txt = "";
+    //console.log(path)
+    if (xml.evaluate) {
+        var nodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
+        var result = nodes.iterateNext();
+        while (result) {
+            txt += result.childNodes[0].nodeValue + "<br>";
+            result = nodes.iterateNext();
+        }
+    // Code For Internet Explorer
+    } else if (window.ActiveXObject || xhttp.responseType == "msxml-document") {
+        xml.setProperty("SelectionLanguage", "XPath");
+        nodes = xml.selectNodes(path);
+        for (i = 0; i < nodes.length; i++) {
+            txt += nodes[i].childNodes[0].nodeValue + "<br>";
+        }
+    }
+    document.getElementById(head).innerHTML = txt;
+  }
+</script>
+</body>
+</html>
