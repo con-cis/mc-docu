@@ -65,7 +65,7 @@
     <thead>
     </thead>
     <tbody >
-      <tr id="channelTCP"></tr>
+      <tr id="fileChannel"></tr>
       <tr id="host"></tr>
       <tr id="port"></tr>
     </tbody>
@@ -84,6 +84,7 @@
         showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/transformer/outboundDataType", "outboundDataType");
         showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/transportName", "tranportName");
         showProperies(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/properties", "sourceProperties"); //how to navigate through or display all properties of found element
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel[sourceConnector/properties/listenerConnectorProperties/host]/name", "fileChannel");
         showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/properties/listenerConnectorProperties/host", "host"); //want to get the //channel/name  value of every child with //host (tcp-listeners sources)
         showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/properties/listenerConnectorProperties/port", "port"); //doesnt match with channels when element is not in branch   
     }
