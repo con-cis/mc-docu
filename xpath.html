@@ -8,7 +8,7 @@
     border: 3px solid #000000;
     width: 100%;
     text-align: left;
-    border-collapse: collapse;       
+    border-collapse: collapse;    
   }
   table.minimalistBlack td, table.minimalistBlack th {
     border: 1px solid #000000;
@@ -20,11 +20,12 @@
   table.minimalistBlack tr:nth-child(even) {
     background: #D0E4F5;
   }
-  table.minimalistBlack thead {
+  table.minimalistBlack th {
     background: #CFCFCF;
     background: -moz-linear-gradient(top, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
     background: -webkit-linear-gradient(top, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
     background: linear-gradient(to bottom, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
+    border-right: 3px solid #000000;
     border-bottom: 3px solid #000000;
   }
   table.minimalistBlack thead th {
@@ -37,53 +38,81 @@
     font-size: 14px;
   }       
 </style>
- <body>
-  <div>
-      <a id="meta"></a>
+<body>
+<div>
+      Channel Count: <a id="meta"> </a>
 </div>
+<br><br>
+<div>
+      Date: <a id="date"> </a>
+</div>
+<br><br>
 <table id="table" class="minimalistBlack">
   <thead>
-      <tr>
-        <th>Channel</th> 
-        <th>Enabled</th>
-        <th>inbound Data Type</th>
-        <th>outbound Data Type</th>
-        <th>Source Connector</th>
-        <th>Source Connector Host</th>
-    </tr>
   </thead>
-  <tbody>
-    <tr id="channel"> <!-- should write in new row -->
-    </tr>
-    <tr id="enabled">
-    </tr>
-    <tr id="inboundDataType">
-    </tr>
-    <tr id="outboundDataType">
-    </tr>
-    <tr id="tranportName">
-    </tr>
-    <tr id="host"> <!-- should write in corresponding channel line -->
-    </tr>
+  <tbody >
+    <tr id="channel"></tr>
+    <tr id="enabled"></tr>
+    <tr id="inboundDataType"></tr>
+    <tr id="outboundDataType"></tr>
+    <tr id="tranportName"></tr>
+    <tr id="sourceProperties"></tr>
   </tbody>
+</table>
+<br>
+<div><p> Seperate Source Reader tryout:</p></div>
+<table id="table" class="minimalistBlack">
+    <thead>
+    </thead>
+    <tbody >
+      <tr id="channelTCP"></tr>
+      <tr id="host"></tr>
+      <tr id="port"></tr>
+    </tbody>
+  </table>
+<br><br>
 </table>
 <script>
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
+        showDate(xhttp.responseXML,"/serverConfiguration/date", "date");
+        showMeta(xhttp.responseXML,"count(/serverConfiguration/channels/channel/name)", "meta");
         showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/name", "channel");
         showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/enabled", "enabled");
         showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/transformer/inboundDataType", "inboundDataType");
         showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/transformer/outboundDataType", "outboundDataType");
         showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/transportName", "tranportName");
-        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/properties/host", "host"); //doesnt match with channels when element is not in branch   
+        showProperies(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/properties", "sourceProperties"); //how to navigate through or display all properties of found element
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/properties/listenerConnectorProperties/host", "host"); //want to get the //channel/name  value of every child with //host (tcp-listeners sources)
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/properties/listenerConnectorProperties/port", "port"); //doesnt match with channels when element is not in branch   
     }
   };
-  xhttp.open("GET", "edited/23-07-2019-MirthBackup.xml", true); //your backup xml path here
-  xhttp.send(); 
-  function showResult(xml, path, head) {
+  xhttp.open("GET", "virgin/23-07-2019-MirthBackup.xml", true); //your backup xml path here
+  xhttp.send();
+  // show channel count
+  function showMeta(xml, path, head) {
+    if (xml.evaluate) {
+        var nodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
+    }
+    document.getElementById(head).innerHTML = nodes.numberValue;
+    }
+  // show Date of current config
+  function showDate(xml, path, head) {
     var txt = "";
-    //console.log(path)
+    if (xml.evaluate) {
+      var nodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
+        var result = nodes.iterateNext();
+        while (result) {
+            txt += result.childNodes[0].nodeValue;
+            result = nodes.iterateNext();
+        }
+    document.getElementById(head).innerHTML = txt;
+    }
+  }
+  // show Result of simple query
+  function showResult(xml, path, head) {
+    var txt = "<th>" + head +"</th><tr>";
     if (xml.evaluate) {
         var nodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
         var result = nodes.iterateNext();
@@ -99,7 +128,31 @@
             txt += nodes[i].childNodes[0].nodeValue + "<br>";
         }
     }
-    document.getElementById(head).innerHTML = txt;
+    document.getElementById(head).innerHTML = txt + "</tr>";
+  } 
+  // edit here to write out whole properties
+  function showProperies(xml, path, head) {
+    var txt = "<th>" + head +"</th><tr>";
+    if (xml.evaluate) {
+        var nodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
+        var result = nodes.iterateNext();
+        while (result) {
+            txt += "<td>" + result + "</td>";
+            result = nodes.iterateNext();
+        }
+    // Code For Internet Explorer
+    } else if (window.ActiveXObject || xhttp.responseType == "msxml-document") {
+        xml.setProperty("SelectionLanguage", "XPath");
+        nodes = xml.selectNodes(path);
+        for (i = 0; i < nodes.length; i++) {
+            txt += nodes[i].childNodes[0].nodeValue + "<br>";
+            
+        }
+    }
+    //console.log(txt.length);
+    //console.log("values: " + txt.responseVariable);
+    document.getElementById(head).innerHTML = txt + "</tr>";
+        
   }
 </script>
 </body>
