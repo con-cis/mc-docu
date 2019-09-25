@@ -40,37 +40,72 @@
 </style>
 <body>
 <div>
-      Channel Count: <a id="meta"> </a>
+      Datetime of Configuration: <a id="date"> </a>
 </div>
 <br><br>
 <div>
-      Date: <a id="date"> </a>
+      Channel Count: <a id="meta"> </a>
 </div>
 <br><br>
+<div><h2>Overview</h2></div>
 <table id="table" class="minimalistBlack">
   <thead>
   </thead>
   <tbody >
-    <tr id="channel"></tr>
+    <tr id="channelName"></tr>
     <tr id="enabled"></tr>
     <tr id="inboundDataType"></tr>
     <tr id="outboundDataType"></tr>
     <tr id="tranportName"></tr>
-    <tr id="sourceProperties"></tr>
   </tbody>
 </table>
 <br>
-<div><p> Seperate Source Reader tryout:</p></div>
+<div><h2>Source: TCP Reader</h2></div>
 <table id="table" class="minimalistBlack">
     <thead>
     </thead>
     <tbody >
-      <tr id="fileChannel"></tr>
+      <tr id="tcpChannelName"></tr>
       <tr id="host"></tr>
       <tr id="port"></tr>
     </tbody>
   </table>
 <br><br>
+</table>
+<div><h2>Source: SMB Reader</h2></div>
+<table id="table" class="minimalistBlack">
+  <thead>
+  </thead>
+  <tbody >
+    <tr id="fileChannelName"></tr>
+    <tr id="smbHost"></tr>
+    <tr id="username"></tr>
+  </tbody>
+</table>
+<br>
+<div><h2>Destination: File Dispatcher</h2></div>
+<table id="table" class="minimalistBlack">
+  <thead>
+  </thead>
+  <tbody >
+    <!-- <tr id="destSmbChannelName"></tr> -->
+    <tr id="destSmbName"></tr>
+    <tr id="destSmbScheme"></tr>
+    <tr id="destSmbHost"></tr>
+    <tr id="destUsername"></tr>
+  </tbody>
+</table>
+<br>
+<div><h2>Destination: TCP Dispatcher</h2></div>
+<table id="table" class="minimalistBlack">
+  <thead>
+  </thead>
+  <tbody >
+    <!-- <tr id="destTcpChannelName"></tr> -->
+    <tr id="destTcpName"></tr>
+    <tr id="destTcpAddress"></tr>
+    <tr id="destTcpPort"></tr>
+  </tbody>
 </table>
 <script>
   var xhttp = new XMLHttpRequest();
@@ -78,18 +113,33 @@
     if (this.readyState == 4 && this.status == 200) {
         showDate(xhttp.responseXML,"/serverConfiguration/date", "date");
         showMeta(xhttp.responseXML,"count(/serverConfiguration/channels/channel/name)", "meta");
-        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/name", "channel");
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/name", "channelName");
         showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/enabled", "enabled");
         showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/transformer/inboundDataType", "inboundDataType");
         showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/transformer/outboundDataType", "outboundDataType");
         showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/transportName", "tranportName");
-        showProperies(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/properties", "sourceProperties"); //how to navigate through or display all properties of found element
-        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel[sourceConnector/properties/listenerConnectorProperties/host]/name", "fileChannel");
-        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/properties/listenerConnectorProperties/host", "host"); //want to get the //channel/name  value of every child with //host (tcp-listeners sources)
-        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/properties/listenerConnectorProperties/port", "port"); //doesnt match with channels when element is not in branch   
-    }
+        //source tcp
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel[sourceConnector/properties/listenerConnectorProperties/host]/name", "tcpChannelName");
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/properties/listenerConnectorProperties/host", "host"); 
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/properties/listenerConnectorProperties/port", "port");   
+        //source smb
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel[sourceConnector/properties/host]/name", "fileChannelName");
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/properties/host", "smbHost"); 
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/properties[@class='com.mirth.connect.connectors.file.FileReceiverProperties']/username", "username");
+        //destination file 
+        //showResult(xhttp.responseXML,"/serverConfiguration/channels/channel[destinationConnectors/connector[properties/scheme='SMB']]/name", "destSmbChannelName"); // cur not matching
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/destinationConnectors/connector[properties/scheme='SMB']/name", "destSmbName");
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/destinationConnectors/connector/properties/scheme[text()='SMB']", "destSmbScheme");
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/destinationConnectors/connector/properties[scheme[text()='SMB']]/host", "destSmbHost"); 
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/destinationConnectors/connector/properties[scheme[text()='SMB']]/username", "destUsername");
+        //destination tcp 
+        //showResult(xhttp.responseXML,"/serverConfiguration/channels/channel[destinationConnectors/connector[properties/remoteAddress]]/name", "destTcpChannelName"); // cur not matching
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/destinationConnectors/connector[properties/remoteAddress]/name", "destTcpName");
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/destinationConnectors/connector/properties/remoteAddress", "destTcpAddress");
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/destinationConnectors/connector/properties/remotePort", "destTcpPort"); 
+     }
   };
-  xhttp.open("GET", "virgin/23-07-2019-MirthBackup.xml", true); //your backup xml path here
+  xhttp.open("GET", "edited/23-07-2019-MirthBackup.xml", true); //your backup xml path here
   xhttp.send();
   // show channel count
   function showMeta(xml, path, head) {
