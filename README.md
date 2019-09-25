@@ -1,5 +1,5 @@
 # mc-docu
-Mirth Connect Documentation from Config-XML into HTML Table
+Mirth Connect Documentation of TCP & File Connectors Stats from Config-XML into HTML Table
 ## Purpose
 I am working on a script to generate a HTML Table of the open source Mirth Connect interface engine channel configuration XML via xpath for a better human readable overview of our current documentation of ports / smb Shares / hosts etc. without touching the MC database.
 ## How to use
