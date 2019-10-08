@@ -3,41 +3,7 @@
 <head>
     <meta charset="utf-8">
 </head>
-<style>
-  table.minimalistBlack {
-    border: 3px solid #000000;
-    width: 100%;
-    text-align: left;
-    border-collapse: collapse;    
-  }
-  table.minimalistBlack td, table.minimalistBlack th {
-    border: 1px solid #000000;
-    padding: 5px 4px;
-  }
-  table.minimalistBlack tbody td {
-    font-size: 13px;
-  }
-  table.minimalistBlack tr:nth-child(even) {
-    background: #D0E4F5;
-  }
-  table.minimalistBlack th {
-    background: #CFCFCF;
-    background: -moz-linear-gradient(top, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
-    background: -webkit-linear-gradient(top, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
-    background: linear-gradient(to bottom, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
-    border-right: 3px solid #000000;
-    border-bottom: 3px solid #000000;
-  }
-  table.minimalistBlack thead th {
-    font-size: 15px;
-    font-weight: bold;
-    color: #000000;
-    text-align: left;
-  }
-  table.minimalistBlack tfoot td {
-    font-size: 14px;
-  }       
-</style>
+<script src="/assets/SaxonJS.js"> //used Saxon-JS-1.2.0 you need to get this</script> 
 <body>
 <div>
       Datetime of Configuration: <a id="date"> </a>
@@ -70,7 +36,7 @@
       <tr id="port"></tr>
     </tbody>
   </table>
-<br><br>
+<br>
 </table>
 <div><h2>Source: SMB Reader</h2></div>
 <table id="table" class="minimalistBlack">
@@ -88,9 +54,8 @@
   <thead>
   </thead>
   <tbody >
-    <!-- <tr id="destSmbChannelName"></tr> -->
+    <tr id="destSmbChannelName"></tr>
     <tr id="destSmbName"></tr>
-    <tr id="destSmbScheme"></tr>
     <tr id="destSmbHost"></tr>
     <tr id="destUsername"></tr>
   </tbody>
@@ -101,7 +66,7 @@
   <thead>
   </thead>
   <tbody >
-    <!-- <tr id="destTcpChannelName"></tr> -->
+    <tr id="destTcpChannelName"></tr>
     <tr id="destTcpName"></tr>
     <tr id="destTcpAddress"></tr>
     <tr id="destTcpPort"></tr>
@@ -127,19 +92,19 @@
         showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/properties/host", "smbHost"); 
         showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/sourceConnector/properties[@class='com.mirth.connect.connectors.file.FileReceiverProperties']/username", "username");
         //destination file 
-        //showResult(xhttp.responseXML,"/serverConfiguration/channels/channel[destinationConnectors/connector[properties/scheme='SMB']]/name", "destSmbChannelName"); // cur not matching
-        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/destinationConnectors/connector[properties/scheme='SMB']/name", "destSmbName");
-        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/destinationConnectors/connector/properties/scheme[text()='SMB']", "destSmbScheme");
-        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/destinationConnectors/connector/properties[scheme[text()='SMB']]/host", "destSmbHost"); 
-        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/destinationConnectors/connector/properties[scheme[text()='SMB']]/username", "destUsername");
-        //destination tcp 
-        //showResult(xhttp.responseXML,"/serverConfiguration/channels/channel[destinationConnectors/connector[properties/remoteAddress]]/name", "destTcpChannelName"); // cur not matching
-        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/destinationConnectors/connector[properties/remoteAddress]/name", "destTcpName");
-        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/destinationConnectors/connector/properties/remoteAddress", "destTcpAddress");
-        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/destinationConnectors/connector/properties/remotePort", "destTcpPort"); 
+        showResultConcat(xhttp.responseXML,"/serverConfiguration/channels/channel/destinationConnectors/connector/properties[@class='com.mirth.connect.connectors.file.FileDispatcherProperties']/concat(../../../name, ' <p hidden> ',  ../name)", "destSmbChannelName");
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/destinationConnectors/connector[properties[@class='com.mirth.connect.connectors.file.FileDispatcherProperties']]/name", "destSmbName");
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/destinationConnectors/connector/properties[@class='com.mirth.connect.connectors.file.FileDispatcherProperties']/host", "destSmbHost"); 
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/destinationConnectors/connector/properties[@class='com.mirth.connect.connectors.file.FileDispatcherProperties']/username", "destUsername");
+        //destination tcp
+        showResultConcat(xhttp.responseXML,"/serverConfiguration/channels/channel/destinationConnectors/connector/properties[@class='com.mirth.connect.connectors.tcp.TcpDispatcherProperties']/concat(../../../name, ' <p hidden> ',  ../name)", "destTcpChannelName");
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/destinationConnectors/connector[properties[@class='com.mirth.connect.connectors.tcp.TcpDispatcherProperties']/remoteAddress]/name", "destTcpName");
+        //console.log(destTcpName); 
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/destinationConnectors/connector/properties[@class='com.mirth.connect.connectors.tcp.TcpDispatcherProperties']/remoteAddress", "destTcpAddress");
+        showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/destinationConnectors/connector/properties[@class='com.mirth.connect.connectors.tcp.TcpDispatcherProperties']/remotePort", "destTcpPort"); 
      }
   };
-  xhttp.open("GET", "edited/23-07-2019-MirthBackup.xml", true); //your backup xml path here
+  xhttp.open("GET", "virgin/07-10-2019-MirthBackup.xml", true); //your backup xml path here
   xhttp.send();
   // show channel count
   function showMeta(xml, path, head) {
@@ -182,16 +147,11 @@
     document.getElementById(head).innerHTML = txt + "</tr>";
   } 
   // edit here to write out whole properties
-  function showProperies(xml, path, head) {
+  function showResultConcat(xml, path, head) {
     var txt = "<th>" + head +"</th><tr>";
     if (xml.evaluate) {
-        var nodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
-        var result = nodes.iterateNext();
-        while (result) {
-            txt += "<td>" + result + "</td>";
-            result = nodes.iterateNext();
-        }
-    // Code For Internet Explorer
+        var nodes = SaxonJS.XPath.evaluate(path,xml,{resultForm:'iterator'}).forEachItem( function( node){txt += "<td>" + node + "</td>"});
+    // Code For Internet Explorer (maybe not working in IE with saxon.js)
     } else if (window.ActiveXObject || xhttp.responseType == "msxml-document") {
         xml.setProperty("SelectionLanguage", "XPath");
         nodes = xml.selectNodes(path);
@@ -200,11 +160,43 @@
             
         }
     }
-    //console.log(txt.length);
-    //console.log("values: " + txt.responseVariable);
     document.getElementById(head).innerHTML = txt + "</tr>";
-        
   }
 </script>
 </body>
+  <style>
+    table.minimalistBlack {
+      border: 3px solid #000000;
+      width: 100%;
+      text-align: left;
+      border-collapse: collapse;    
+    }
+    table.minimalistBlack td, table.minimalistBlack th {
+      border: 1px solid #000000;
+      padding: 5px 4px;
+    }
+    table.minimalistBlack tbody td {
+      font-size: 13px;
+    }
+    table.minimalistBlack td:nth-child(even) {
+      background: #D0E4F5;
+    }
+    table.minimalistBlack th {
+      background: #CFCFCF;
+      background: -moz-linear-gradient(top, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
+      background: -webkit-linear-gradient(top, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
+      background: linear-gradient(to bottom, #dbdbdb 0%, #d3d3d3 66%, #CFCFCF 100%);
+      border-right: 3px solid #000000;
+      border-bottom: 3px solid #000000;
+    }
+    table.minimalistBlack thead th {
+      font-size: 15px;
+      font-weight: bold;
+      color: #000000;
+      text-align: left;
+    }
+    table.minimalistBlack tfoot td {
+      font-size: 14px;
+    }       
+  </style>
 </html>
