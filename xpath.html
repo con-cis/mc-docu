@@ -1,18 +1,25 @@
 <!DOCTYPE html>
 <html>
+<!--[if IE]>
+    <div class="warning"><p style="color:red;font-size:1.4em">For the best experience please open using Edge, Chrome, Firefox or Safari</p></div>
+<![endif]-->
 <head>
-    <meta charset="utf-8">
+    <meta charset="ISO-8859-1">
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>Mirth Configuration</title>
 </head>
-<script src="/assets/SaxonJS.js"> //used Saxon-JS-1.2.0 you need to get this</script> 
+<script src="/assets/SaxonJS.js">//used Saxon-JS-1.2.0 you need to get this</script> 
+<!--[if IE]>
+    <script src="/assets/SaxonJS11.js">//used Saxon-JS-1.0.0 for IE</script> 
+<![endif]-->
 <body>
 <div>
       Datetime of Configuration: <a id="date"> </a>
 </div>
-<br><br>
 <div>
       Channel Count: <a id="meta"> </a>
 </div>
-<br><br>
+<br>
 <div><h2>Overview</h2></div>
 <table id="table" class="minimalistBlack">
   <thead>
@@ -37,7 +44,6 @@
     </tbody>
   </table>
 <br>
-</table>
 <div><h2>Source: SMB Reader</h2></div>
 <table id="table" class="minimalistBlack">
   <thead>
@@ -73,7 +79,17 @@
   </tbody>
 </table>
 <script>
-  var xhttp = new XMLHttpRequest();
+  var xhttp;
+  if (window.XMLHttpRequest){
+	xhttp = new XMLHttpRequest();
+  } else {
+    // code for older browsers
+    xhttp = new ActiveXObject("Msxml2.DOMDocument.6.0");  ;
+  }
+  //xhttp.overrideMimeType("text/xml; charset=UTF-8");
+  if (xhttp.overrideMimeType) {
+      xhttp.overrideMimeType("application/xml; charset=ISO-8859-1");
+	}
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
         showDate(xhttp.responseXML,"/serverConfiguration/date", "date");
@@ -104,13 +120,20 @@
         showResult(xhttp.responseXML,"/serverConfiguration/channels/channel/destinationConnectors/connector/properties[@class='com.mirth.connect.connectors.tcp.TcpDispatcherProperties']/remotePort", "destTcpPort"); 
      }
   };
-  xhttp.open("GET", "virgin/07-10-2019-MirthBackup.xml", true); //your backup xml path here
+  xhttp.open("GET", "config/mirth_config.xml", true); //your backup xml path here
   xhttp.send();
   // show channel count
   function showMeta(xml, path, head) {
     if (xml.evaluate) {
         var nodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
-    }
+	// Code For Internet Explorer
+    } else if (window.ActiveXObject || xhttp.responseType == "msxml-document") {
+        xml.setProperty("SelectionLanguage", "XPath");
+        var nodes = xml.selectNodes(path);
+        for (i = 0; i < nodes.length; i++) {
+            txt += nodes[i].childNodes[0].nodeValue + "<br>";
+        }
+	}
     document.getElementById(head).innerHTML = nodes.numberValue;
     }
   // show Date of current config
@@ -123,8 +146,14 @@
             txt += result.childNodes[0].nodeValue;
             result = nodes.iterateNext();
         }
-    document.getElementById(head).innerHTML = txt;
-    }
+	} else if (window.ActiveXObject || xhttp.responseType == "msxml-document") {
+		xml.setProperty("SelectionLanguage", "XPath");
+		nodes = xml.selectNodes(path);
+		for (i = 0; i < nodes.length; i++) {
+			txt += nodes[i].childNodes[0].nodeValue + "<br>";
+		}
+	}
+	document.getElementById(head).innerHTML = txt;
   }
   // show Result of simple query
   function showResult(xml, path, head) {
