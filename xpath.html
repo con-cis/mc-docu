@@ -11,12 +11,9 @@
 	<meta http-equiv="Pragma" content="no-cache" />
     <meta charset="ISO-8859-1">
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" >
-    <title>Mirth Configuration</title>
+    <title>Mirth Configuration PRZ-SST12</title>
 </head>
-<script src="/assets/SaxonJS.js">//used Saxon-JS-1.2.0 you need to get this</script> 
-<!--[if IE]>
-    <script src="/assets/SaxonJS11.js">//used Saxon-JS-1.2.0 you need to get this</script> 
-<![endif]-->
+<script src="/assets/SaxonJS.js">//used Saxon-JS-1.2.0 you need to get this</script>
 <body>
 <div>
       Datetime of Configuration: <a id="date"> </a>
@@ -127,39 +124,27 @@
   };
   xhttp.open("GET", "config/mirth_config.xml", true); //your backup xml path here
   xhttp.send();
-  // show channel count
-  function showMeta(xml, path, head) {
-    if (xml.evaluate) {
-        var nodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
-	// Code For Internet Explorer
-    } else if (window.ActiveXObject || xhttp.responseType == "msxml-document") {
-        xml.setProperty("SelectionLanguage", "XPath");
-        var nodes = xml.selectNodes(path);
-        for (i = 0; i < nodes.length; i++) {
-            txt += nodes[i].childNodes[0].nodeValue + "<br>";
-        }
-	}
-    document.getElementById(head).innerHTML = nodes.numberValue;
-    }
   // show Date of current config
   function showDate(xml, path, head) {
-    var txt = "";
     if (xml.evaluate) {
-      var nodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
+		var txt = "";
+        var nodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
         var result = nodes.iterateNext();
         while (result) {
             txt += result.childNodes[0].nodeValue;
             result = nodes.iterateNext();
         }
-	} else if (window.ActiveXObject || xhttp.responseType == "msxml-document") {
-		xml.setProperty("SelectionLanguage", "XPath");
-		nodes = xml.selectNodes(path);
-		for (i = 0; i < nodes.length; i++) {
-			txt += nodes[i].childNodes[0].nodeValue + "<br>";
-		}
+		document.getElementById(head).innerHTML = txt;
+    }
+  } 
+  // show channel count
+  function showMeta(xml, path, head) {
+    if (xml.evaluate) {
+        var nodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
+    }
 	}
-	document.getElementById(head).innerHTML = txt;
-  }
+    document.getElementById(head).innerHTML = nodes.numberValue;
+    }
   // show Result of simple query
   function showResult(xml, path, head) {
     var txt = "<th>" + head +"</th><tr>";
@@ -170,14 +155,7 @@
             txt += "<td>" + result.childNodes[0].nodeValue + "</td>";
             result = nodes.iterateNext();
         }
-    // Code For Internet Explorer
-    } else if (window.ActiveXObject || xhttp.responseType == "msxml-document") {
-        xml.setProperty("SelectionLanguage", "XPath");
-        nodes = xml.selectNodes(path);
-        for (i = 0; i < nodes.length; i++) {
-            txt += nodes[i].childNodes[0].nodeValue + "<br>";
-        }
-    }
+    } 
     document.getElementById(head).innerHTML = txt + "</tr>";
   } 
   // edit here to write out whole properties
@@ -185,19 +163,13 @@
     var txt = "<th>" + head +"</th><tr>";
     if (xml.evaluate) {
         var nodes = SaxonJS.XPath.evaluate(path,xml,{resultForm:'iterator'}).forEachItem( function( node){txt += "<td>" + node + "</td>"});
-    // Code For Internet Explorer (maybe not working in IE with saxon.js)
-    } else if (window.ActiveXObject || xhttp.responseType == "msxml-document") {
-        xml.setProperty("SelectionLanguage", "XPath");
-        nodes = xml.selectNodes(path);
-        for (i = 0; i < nodes.length; i++) {
-            txt += nodes[i].childNodes[0].nodeValue + "<br>";
-            
-        }
+    
     }
     document.getElementById(head).innerHTML = txt + "</tr>";
   }
 </script>
 </body>
+<!-- style section below for confluence include HTML Iframe -->
   <style>
     table.minimalistBlack {
       border: 3px solid #000000;
