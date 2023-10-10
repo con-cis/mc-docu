@@ -16,6 +16,8 @@
 
 ## Overview
 
+Mirth Connec<img width="1412" alt="Channel Overview" src="https://github.com/con-cis/mc-docu/assets/54837156/54c0692e-32ca-4ac0-af8b-24edce8ac9f3">
+
 Mirth Connect Config Documentation Tool is an open-source project that allows you to parse and visualize Mirth Connect configuration files. It is built using Vite, Vue, and Electron, leveraging IPC for communication between the frontend and backend.
 
 This project is currently in pre-release, and it's designed to work with Mirth Config 4.4.0. Please be aware that there is no warranty, and it's encouraged to use the software as an open-source, community-driven effort. Feel free to participate, test, fork, and contribute to this project.
@@ -24,7 +26,7 @@ This project is currently in pre-release, and it's designed to work with Mirth C
 
 ### Supported Configurations
 
-Mirth Connect Config Documentation Tool  supports the following features:
+t Config Documentation Tool  supports the following features:
 
 - **XML Configuration Parsing**: The application uses the xml2js library to parse Mirth Connect configuration files in XML format.
 
