@@ -65,25 +65,61 @@ Mirth Connect Config Documentation Tool utilizes a modern stack, including Vite 
 - [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
 
 ## Procject structure
-├──src
-│  ├──enums
-│  ├──models
-│  ├──main
-│  │  ├──index.ts
-│  │  └──modules
-│  │  └──models
-│  │  └──...
-│  ├──preload
-│  │  ├──index.ts
-│  │  └──...
-│  └──renderer    # with vue, vite, vuetify
-│     ├──src
-│     ├──index.html
-│     └──...
-├──electron.vite.config.ts
-├──package.json
-└──...
-
+```
+mc-docu
+src
+├── enums
+│   ├── ApiResponses.ts
+│   ├── ConnectorType.ts
+│   └── FilteredProperties.ts
+├── main
+│   ├── index.ts
+│   ├── modules
+│   │   ├── fileHandling
+│   │   │   ├── FileDialogService.ts
+│   │   │   └── FileService.ts
+│   │   ├── jsonProcessing
+│   │   │   └── JsonProcessingService.ts
+│   │   └── xmlProcessing
+│   │       └── XmlProcessingService.ts
+│   ├── services
+│   │   ├── Config.ts
+│   │   └── Logger.ts
+│   └── utils
+│       ├── Common.ts
+│       └── ErrorHandling.ts
+├── models
+│   ├── ChannelData.ts
+│   ├── ConnectorData.ts
+│   ├── DestinationConnectorData.ts
+│   ├── ExtractedData.ts
+│   ├── MetaData.ts
+│   ├── SourceConnectorData.ts
+│   ├── TransformerData.ts
+│   └── index.ts
+├── preload
+│   ├── index.d.ts
+│   └── index.ts
+├── renderer
+│   ├── index.html
+│   └── src
+│       ├── App.vue
+│       ├── assets
+│       │   └── css
+│       │       └── styles.less
+│       ├── components
+│       │   ├── DataTable.vue
+│       │   └── Versions.vue
+│       ├── data
+│       │   ├── checkboxOptionsData.ts
+│       │   └── headerData.ts
+│       ├── env.d.ts
+│       ├── main.ts
+│       └── plugins
+│           └── vuetify.ts
+└── types
+    └── ConfigData.ts
+```
 ### Build
 
 ```bash
