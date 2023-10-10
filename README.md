@@ -55,7 +55,7 @@ To get started with Mirth Connect Config Documentation Tool:
 
 1. Clone this repository to your local machine.
 2. Install dependencies using `npm install`.
-3. Start the application using `npm run electron:serve`.
+3. Start the application using `npm run start`.
 4. Import your Mirth Connect configuration file to begin exploring and visualizing it.
 
 ## Architecture
