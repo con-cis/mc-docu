@@ -1,0 +1,61 @@
+{
+  "name": "mc-docu",
+  "displayName": "mc-docu",
+  "productName": "mc-docu",
+  "version": "0.9.0",
+  "description": "A Mirth Connect configuration documentation tool",
+  "main": "./out/main/index.js",
+  "author": "Thomas Loy",
+  "homepage": "https://github.com/con-cis/mc-docu",
+  "repository": {
+    "url": "https://github.com/con-cis/mc-docu"
+  },
+  "scripts": {
+    "format": "prettier --write .",
+    "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts,.vue --fix",
+    "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
+    "typecheck:web": "vue-tsc --noEmit -p tsconfig.web.json --composite false",
+    "typecheck": "npm run typecheck:node && npm run typecheck:web",
+    "start": "electron-vite preview",
+    "dev": "electron-vite dev",
+    "build": "npm run typecheck && electron-vite build",
+    "postinstall": "electron-builder install-app-deps",
+    "build:win": "npm run build && electron-builder --win --config",
+    "build:mac": "npm run build && electron-builder --mac --config",
+    "build:linux": "npm run build && electron-builder --linux --config"
+  },
+  "dependencies": {
+    "@electron-toolkit/preload": "^2.0.0",
+    "@electron-toolkit/utils": "^2.0.1",
+    "electron-updater": "^6.1.4",
+    "vuetify": "^3.3.20",
+    "xml2js": "^0.6.2"
+  },
+  "devDependencies": {
+    "@electron-toolkit/eslint-config": "^1.0.1",
+    "@electron-toolkit/eslint-config-ts": "^1.0.0",
+    "@electron-toolkit/tsconfig": "^1.0.1",
+    "@mdi/font": "^7.3.67",
+    "@rushstack/eslint-patch": "^1.5.1",
+    "@types/node": "^20.8.4",
+    "@types/xml2js": "^0.4.12",
+    "@vitejs/plugin-vue": "^4.4.0",
+    "@vue/eslint-config-prettier": "^8.0.0",
+    "@vue/eslint-config-typescript": "^12.0.0",
+    "electron": "^27.0.0",
+    "electron-builder": "^24.6.4",
+    "electron-vite": "^1.0.28",
+    "eslint": "^8.51.0",
+    "eslint-plugin-vue": "^9.17.0",
+    "less": "^4.2.0",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.11",
+    "vue": "^3.3.4",
+    "vue-tsc": "^1.8.18"
+  },
+  "license": "MIT",
+  "keywords": [
+    "mirth connect"
+  ]
+}
