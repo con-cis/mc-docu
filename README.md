@@ -26,7 +26,7 @@ This project is currently in pre-release, and it's designed to work with Mirth C
 
 ### Supported Configurations
 
-t Config Documentation Tool  supports the following features:
+Mirth Connect Config Documentation Tool  supports the following features:
 
 - **XML Configuration Parsing**: The application uses the xml2js library to parse Mirth Connect configuration files in XML format.
 
