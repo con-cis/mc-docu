@@ -44,6 +44,11 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: release_on_${{ matrix.os }}
+          name: release_on_${{ matrix.os }}_node_${{ matrix.node-version }}
           path: dist/
           retention-days: 5
+      - name: Download a single artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: release_on_${{ matrix.os }}_node_${{ matrix.node-version }}
+          path: dist/
