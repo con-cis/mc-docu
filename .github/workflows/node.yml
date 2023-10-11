@@ -41,6 +41,8 @@ jobs:
       - name: Build for Linux
         if: startsWith(matrix.os, 'ubuntu')
         run: npm run build:linux
+      - name: Create upload directory
+        run: mkdir -p release
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
