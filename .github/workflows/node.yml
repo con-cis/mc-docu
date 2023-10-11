@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 5
+    timeout-minutes: 360
     continue-on-error: ${{ matrix.experimental }}
 
     strategy:
