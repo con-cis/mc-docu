@@ -1,5 +1,5 @@
-import { app, shell, BrowserWindow, Menu } from 'electron'
-import { join } from 'path'
+import { app, shell, BrowserWindow, Menu, session } from 'electron'
+import { resolve, join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { configureMenu } from './utils/Common'
 import { openFile, saveFile } from './modules/fileHandling/FileService'
@@ -13,8 +13,13 @@ function createWindow(): void {
     title: 'Mirth Connect Channel Documentation',
     autoHideMenuBar: false,
     webPreferences: {
-      preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      preload: resolve(__dirname, '../preload/index.js'),
+      sandbox: false,
+      disableBlinkFeatures: 'Auxclick',
+      webSecurity: true,
+      nodeIntegration: false,
+      contextIsolation: true,
+      allowRunningInsecureContent: false
     }
   })
 
@@ -42,6 +47,17 @@ function createWindow(): void {
 app.whenReady().then(() => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
+
+  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+    callback({
+      responseHeaders: {
+        ...details.responseHeaders,
+        'Content-Security-Policy': [
+          "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"
+        ]
+      }
+    })
+  })
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.

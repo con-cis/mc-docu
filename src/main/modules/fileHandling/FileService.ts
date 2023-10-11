@@ -1,4 +1,4 @@
-import fs from 'fs/promises' // Use promises-based fs
+import fs from 'fs/promises'
 import { processJsonFile } from '../jsonProcessing/JsonProcessingService'
 import { processXmlFile } from '../xmlProcessing/XmlProcessingService'
 import { openFileDialog, saveFileDialog } from './FileDialogService'
