@@ -11,6 +11,7 @@
 - [Recommended IDE Setup](#recommended-ide-setup)
 - [Procject structure](#procject-structure)
   - [Build](#build)
+  - [Automatic generated builds](#automatic-generated-builds)
 - [License](#license)
 - [Disclaimer](#disclaimer)
 
@@ -135,6 +136,9 @@ $ npm run build:mac
 $ npm run build:linux
 ```
 
+### Automatic generated builds
+
+Links to automated generated builds for [mac os, windows and linux](https://github.com/con-cis/mc-docu/actions/runs/6487526125) from the CI action workflow
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

@@ -5,7 +5,7 @@ import DataTable from './components/DataTable.vue';
 import { checkboxOptionsData } from './data/checkboxOptionsData';
 import { ConfigData } from 'src/types/ConfigData';
 import { ChannelData } from 'src/models';
-import { ApiResponses } from '../../enums/ApiResponses';
+import ApiResponses from '../../enums/ApiResponses';
 import '@mdi/font/css/materialdesignicons.css';
 
 const search = ref('');
@@ -17,9 +17,16 @@ const timeout = ref(5000);
 const hasErrors = ref(false);
 const wasSuccessful = ref(false);
 
+const DEFAULT_COLUMNS = [
+  "id",
+  "connectorName",
+  "transportName",
+  "inboundDataType",
+  "outboundDataType",
+  "enabled"
+];
 
-const filterColumns = ref<string[]>(["id", "connectorName", "transportName", "inboundDataType", "outboundDataType",
-  "enabled"]);
+const filterColumns = ref<string[]>(DEFAULT_COLUMNS);
 
 const handleFilterColumnChange = (key: string) => {
   if (!filterColumns.value.includes(key)) {
@@ -27,14 +34,6 @@ const handleFilterColumnChange = (key: string) => {
   } else {
     filterColumns.value = filterColumns.value.filter(item => item !== key);
   }
-}
-
-const handleSelectAll = () => {
-  filterColumns.value = checkboxOptionsData.map(option => option.key);
-}
-
-const handleSelectNone = () => {
-  filterColumns.value = [];
 }
 
 const handleExportFile = async () => {
@@ -58,6 +57,14 @@ const handleExportFile = async () => {
     hasErrors.value = true;
   }
 };
+
+const handleSelectAll = () => {
+  filterColumns.value = checkboxOptionsData.map(option => option.key);
+}
+
+const handleSelectNone = () => {
+  filterColumns.value = [];
+}
 
 </script>
 
@@ -89,8 +96,8 @@ const handleExportFile = async () => {
 
     <v-app-bar>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-app-bar-title v-if="configData === null"> 
-        <v-card :title="'Mirth Connect Channel Overview'"></v-card> 
+      <v-app-bar-title v-if="configData === null">
+        <v-card :title="'Mirth Connect Channel Overview'"></v-card>
       </v-app-bar-title>
       <v-app-bar-title v-else>
         <v-card :title="'Mirth Connect Channel Overview'"

@@ -4,7 +4,7 @@ import { VDataTable } from 'vuetify/labs/VDataTable';
 import { ChannelData } from '../../../models';
 import { ConfigData } from '../../../types/ConfigData';
 import { headerData } from '../data/headerData';
-import { ApiResponses } from '../../../enums/ApiResponses';
+import ApiResponses from '../../../enums/ApiResponses';
 
 const channels = ref<ChannelData | any>(null);
 const isLoading = ref(false);
@@ -40,11 +40,9 @@ function fetchConfig() {
 }
 
 const filteredHeaders = computed(() => {
+  const preservedHeaderKeys = ["annotation", "data-table-expand", "name"];
   return headers.value.filter((item: any) => {
-    return props.columnFilter!.includes(item.key) ||
-      item.key === "annotation" ||
-      item.key === "data-table-expand" ||
-      item.key === "name";
+    return props.columnFilter!.includes(item.key) || preservedHeaderKeys.includes(item.key);
   });
 });
 
@@ -59,20 +57,17 @@ const openFileDialog = async () => {
   const response = await window.api.onOpenFileDialog();
   switch (response) {
     case ApiResponses.RESOLVED_SUCCESSFULLY:
-      isLoading.value = false;
       break;
     case ApiResponses.ERROR_RESOLVING_CONFIG:
-      isLoading.value = false;
       hasErrors.value = true;
       break;
     case ApiResponses.OPERATION_CANCELLED:
-      isLoading.value, hasErrors.value = false;
       break;
     default:
-      isLoading.value = false;
       hasErrors.value = true;
       break;
   }
+  isLoading.value = false;
 };
 
 // Not implemented yet

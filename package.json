@@ -28,7 +28,7 @@
     "@electron-toolkit/preload": "^2.0.0",
     "@electron-toolkit/utils": "^2.0.1",
     "electron-updater": "^6.1.4",
-    "vuetify": "^3.3.20",
+    "vuetify": "^3.3.21",
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
@@ -52,7 +52,7 @@
     "typescript": "^5.2.2",
     "vite": "^4.4.11",
     "vue": "^3.3.4",
-    "vue-tsc": "^1.8.18"
+    "vue-tsc": "^1.8.19"
   },
   "license": "MIT",
   "keywords": [

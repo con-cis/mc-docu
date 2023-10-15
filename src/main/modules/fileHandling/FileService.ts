@@ -3,6 +3,7 @@ import { processJsonFile } from '../jsonProcessing/JsonProcessingService'
 import { processXmlFile } from '../xmlProcessing/XmlProcessingService'
 import { openFileDialog, saveFileDialog } from './FileDialogService'
 import { BrowserWindow, ipcMain } from 'electron'
+import ApiResponses from '../../../enums/ApiResponses'
 
 async function readFileAndProcess(filePath: string) {
   try {
@@ -23,19 +24,22 @@ async function readFileAndProcess(filePath: string) {
 }
 
 function getFileType(content: string) {
+  let format: string
   if (isJSON(content)) {
-    return 'JSON'
+    format = 'JSON'
   } else if (isXML(content)) {
-    return 'XML'
+    format = 'XML'
   } else {
-    return 'unknown format'
+    format = 'unknown format'
   }
+  return format
 }
 
 export async function openFile() {
   try {
     const result = await openFileDialog()
     const mainWindow = BrowserWindow.getFocusedWindow()
+    let status: string
 
     if (!result.canceled) {
       const filePath = result.filePaths[0]
@@ -45,14 +49,15 @@ export async function openFile() {
         metadata: processedResult.metadata
       }
       mainWindow?.webContents.send('get-config', dataObject)
-      return 'Resolved successfully'
+      status = ApiResponses.RESOLVED_SUCCESSFULLY
     } else {
       mainWindow?.webContents.send('get-config', null)
-      return 'Operation cancelled'
+      status = ApiResponses.OPERATION_CANCELLED
     }
+    return status
   } catch (error) {
     console.error('Error:', error)
-    return 'Error while resolving config file'
+    return ApiResponses.ERROR_RESOLVING_CONFIG
   }
 }
 
@@ -65,13 +70,13 @@ export async function saveFile(data: string) {
       const filePath = result.filePath
       await fs.writeFile(filePath, data)
       console.info('Successfully saved')
-      return 'Resolved successfully'
+      return ApiResponses.RESOLVED_SUCCESSFULLY
     } else {
-      return 'Operation cancelled'
+      return ApiResponses.OPERATION_CANCELLED
     }
   } catch (error) {
     console.error('Error:', error)
-    return 'Error while resolving config file'
+    return ApiResponses.ERROR_RESOLVING_CONFIG
   }
 }
 
