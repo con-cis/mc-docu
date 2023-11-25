@@ -124,7 +124,7 @@ watch(() => props.resetChannels, () => {
       <!-- expanded -->
       <!-- TODO: Try with data-table-row https://vuetifyjs.com/en/api/v-data-table-row/ -->
       <template v-slot:expanded-row="{ item, columns }">
-        <tr class="text-medium-emphasis" v-for="(destination, index) in item.destinationConnectors" :key="'d-' + index">
+        <tr class="text-medium-emphasis" v-for="(destination, index) in ((item as ChannelData).destinationConnectors)" :key="'d-' + index">
           <td> Destination: {{ index + 1 }}</td>
           <template v-for="column in columns">
             <td v-if="column.key !== 'name'">
@@ -135,8 +135,8 @@ watch(() => props.resetChannels, () => {
       </template>
       <!-- annotation dialog -->
       <!-- check this out: https://vuetifyjs.com/en/components/data-tables/basics/#crud-actions -->
-      <template v-slot:item.annotation="{ item }">
-        <v-icon size="small" class="mx-auto" @click.stop="setSelectedChannel(item)">
+      <template v-slot:item.annotation="{ item}">
+        <v-icon size="small" class="mx-auto" @click.stop="setSelectedChannel(item as ChannelData)">
           mdi-note-plus-outline
         </v-icon>
         <v-dialog v-model="dialog" persistent width="1024">
@@ -145,7 +145,7 @@ watch(() => props.resetChannels, () => {
               <span class="text-h5">{{ selectedChannel ? selectedChannel.name : '' }}</span>
             </v-card-title>
             <v-card-text>
-              <v-textarea v-model="item.annotation" :value="item.annotation ?? ''" label="Annotation"
+              <v-textarea v-model="((item as ChannelData).annotation)" :value="(item as ChannelData).annotation ?? ''" label="Annotation"
                 clearable></v-textarea>
             </v-card-text>
             <v-card-actions>
