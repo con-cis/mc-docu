@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue';
-import { VDataTable } from 'vuetify/labs/VDataTable';
+import { VDataTable } from 'vuetify/components';
 import { ChannelData } from '../../../models';
 import { ConfigData } from '../../../types/ConfigData';
 import { headerData } from '../data/headerData';
