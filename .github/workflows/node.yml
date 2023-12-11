@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install Dependencies
-        run: npm install
+        run: npm install --force
       - name: Build Release Files
         run: npm run build --if-present
       - name: Electronegativity

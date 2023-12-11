@@ -32,7 +32,7 @@ jobs:
           node-version: 18
 
       - name: Install Dependencies
-        run: npm install
+        run: npm install --force
 
       - name: Build Release Files
         run: npm run build
