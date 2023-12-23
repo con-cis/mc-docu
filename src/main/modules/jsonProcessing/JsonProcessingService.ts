@@ -8,7 +8,7 @@ import { MetaData, ExtractedData, ChannelData } from '../../../models'
  */
 export async function processJsonFile(
   jsonData: string
-): Promise<{extractedData: ExtractedData; metadata: MetaData } | Error> {
+): Promise<{ extractedData: ExtractedData; metadata: MetaData } | Error> {
   try {
     const result = JSON.parse(jsonData)
 

@@ -1,5 +1,5 @@
-import { ExtractedData } from "./ExtractedData"
-import { MetaData } from "./MetaData"
+import { ExtractedData } from './ExtractedData'
+import { MetaData } from './MetaData'
 
 export interface DataObject {
   status: string

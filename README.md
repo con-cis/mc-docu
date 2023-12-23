@@ -27,7 +27,7 @@ This project is currently in pre-release, and it's designed to work with Mirth C
 
 ### Supported Configurations
 
-Mirth Connect Config Documentation Tool  supports the following features:
+Mirth Connect Config Documentation Tool supports the following features:
 
 - **XML Configuration Parsing**: The application uses the xml2js library to parse Mirth Connect configuration files in XML format.
 
@@ -68,6 +68,7 @@ Mirth Connect Config Documentation Tool utilizes a modern stack, including Vite 
 - [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
 
 ## Procject structure
+
 ```
 mc-docu
 src
@@ -123,6 +124,7 @@ src
 └── types
     └── ConfigData.ts
 ```
+
 ### Build
 
 ```bash
@@ -139,10 +141,11 @@ $ npm run build:linux
 ### Automatic generated builds
 
 Links to automated generated builds for [mac os, windows and linux](https://github.com/con-cis/mc-docu/actions/runs/6487526125) from the CI action workflow
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Disclaimer
 
-Mirth Connect Config Documentation Tool  is a pre-release project and may have limited functionality. It has been primarily tested with Mirth Config 4.4.0. We encourage users to contribute, report issues, and participate in its development to expand its capabilities.
+Mirth Connect Config Documentation Tool is a pre-release project and may have limited functionality. It has been primarily tested with Mirth Config 4.4.0. We encourage users to contribute, report issues, and participate in its development to expand its capabilities.

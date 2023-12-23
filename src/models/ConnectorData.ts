@@ -1,4 +1,4 @@
-import {TransformerData} from './';
+import { TransformerData } from './'
 
 export interface ConnectorData {
   inboundDataType: string
