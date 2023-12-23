@@ -72,6 +72,7 @@ export async function openFile() {
   }
 
   mainWindow?.webContents.send('get-config', dataObject)
+  return dataObject.status
 }
 
 export async function saveFile(data: string) {
