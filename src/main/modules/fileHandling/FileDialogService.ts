@@ -22,6 +22,6 @@ export function saveFileDialog() {
     return dialog.showSaveDialog(mainWindow, options)
   } else {
     console.error('No focused window found.')
-    return Promise.resolve({ canceled: true, filePaths: [] })
+    return Promise.resolve({ canceled: true, filePath: [] })
   }
 }

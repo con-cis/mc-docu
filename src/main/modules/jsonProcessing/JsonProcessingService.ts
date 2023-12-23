@@ -8,7 +8,7 @@ import { MetaData, ExtractedData, ChannelData } from '../../../models'
  */
 export async function processJsonFile(
   jsonData: string
-): Promise<{extractedData: ExtractedData; metadata: MetaData }> {
+): Promise<{extractedData: ExtractedData; metadata: MetaData } | Error> {
   try {
     const result = JSON.parse(jsonData)
 
@@ -18,7 +18,7 @@ export async function processJsonFile(
         metadata: result.metadata
       }
     } else {
-      throw new Error('Invalid JSON format: The JSON data is missing required properties.')
+      return new Error('Invalid JSON format: The JSON data is missing required properties.')
     }
   } catch (error) {
     const errorMessage = (error as Error).message

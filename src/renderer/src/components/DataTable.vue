@@ -29,15 +29,32 @@ headers.value.push(
 
 function fetchConfig() {
   window.api.onGetConfig((_event, data: ConfigData) => {
-    if (data) {
-      channels.value = data.extractedData.channels;
-      emit('channels', channels.value);
-      emit('configData', data);
-    } else {
-      isLoading.value = false;
+    switch (data.status) {
+      case ApiResponses.RESOLVED_SUCCESSFULLY:
+        channels.value = data.extractedData.channels;
+        emit('channels', channels.value);
+        emit('configData', data);
+        break;
+      case ApiResponses.ERROR_RESOLVING_CONFIG:
+        hasErrors.value = true;
+        isLoading.value = false;
+        break;
+      case ApiResponses.OPERATION_CANCELLED:
+        isLoading.value = false;
+        break;
+      default:
+        isLoading.value = false;
+        break;
     }
   });
 }
+
+const openFileDialog = async () => {
+  isLoading.value = true;
+  window.api.onOpenFileDialog().then(() => {
+    fetchConfig();
+  });
+};
 
 const filteredHeaders = computed(() => {
   const preservedHeaderKeys = ["annotation", "data-table-expand", "name"];
@@ -49,25 +66,6 @@ const filteredHeaders = computed(() => {
 const setSelectedChannel = (channel: ChannelData) => {
   selectedChannel.value = channel;
   dialog.value = true;
-};
-
-const openFileDialog = async () => {
-  isLoading.value = true;
-  hasErrors.value = false;
-  const response = await window.api.onOpenFileDialog();
-  switch (response) {
-    case ApiResponses.RESOLVED_SUCCESSFULLY:
-      break;
-    case ApiResponses.ERROR_RESOLVING_CONFIG:
-      hasErrors.value = true;
-      break;
-    case ApiResponses.OPERATION_CANCELLED:
-      break;
-    default:
-      hasErrors.value = true;
-      break;
-  }
-  isLoading.value = false;
 };
 
 // Not implemented yet
@@ -124,7 +122,8 @@ watch(() => props.resetChannels, () => {
       <!-- expanded -->
       <!-- TODO: Try with data-table-row https://vuetifyjs.com/en/api/v-data-table-row/ -->
       <template v-slot:expanded-row="{ item, columns }">
-        <tr class="text-medium-emphasis" v-for="(destination, index) in ((item as ChannelData).destinationConnectors)" :key="'d-' + index">
+        <tr class="text-medium-emphasis" v-for="(destination, index) in ((item as ChannelData).destinationConnectors)"
+          :key="'d-' + index">
           <td> Destination: {{ index + 1 }}</td>
           <template v-for="column in columns">
             <td v-if="column.key !== 'name'">
@@ -135,7 +134,7 @@ watch(() => props.resetChannels, () => {
       </template>
       <!-- annotation dialog -->
       <!-- check this out: https://vuetifyjs.com/en/components/data-tables/basics/#crud-actions -->
-      <template v-slot:item.annotation="{ item}">
+      <template v-slot:item.annotation="{ item }">
         <v-icon size="small" class="mx-auto" @click.stop="setSelectedChannel(item as ChannelData)">
           mdi-note-plus-outline
         </v-icon>
@@ -145,8 +144,8 @@ watch(() => props.resetChannels, () => {
               <span class="text-h5">{{ selectedChannel ? selectedChannel.name : '' }}</span>
             </v-card-title>
             <v-card-text>
-              <v-textarea v-model="((item as ChannelData).annotation)" :value="(item as ChannelData).annotation ?? ''" label="Annotation"
-                clearable></v-textarea>
+              <v-textarea v-model="((item as ChannelData).annotation)" :value="(item as ChannelData).annotation ?? ''"
+                label="Annotation" clearable></v-textarea>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>

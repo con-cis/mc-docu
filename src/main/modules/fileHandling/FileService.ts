@@ -4,6 +4,9 @@ import { processXmlFile } from '../xmlProcessing/XmlProcessingService'
 import { openFileDialog, saveFileDialog } from './FileDialogService'
 import { BrowserWindow, ipcMain } from 'electron'
 import ApiResponses from '../../../enums/ApiResponses'
+import { ExtractedData } from '../../../models/ExtractedData'
+import { MetaData } from '../../../models/MetaData'
+import { DataObject } from '../../../models/DataObject'
 
 async function readFileAndProcess(filePath: string) {
   try {
@@ -35,39 +38,47 @@ function getFileType(content: string) {
   return format
 }
 
+function createDataObject(
+  processedResult: Error | { extractedData: ExtractedData; metadata: MetaData }
+): DataObject {
+  if (processedResult instanceof Error) {
+    return { status: ApiResponses.ERROR_RESOLVING_CONFIG }
+  } else {
+    return {
+      status: ApiResponses.RESOLVED_SUCCESSFULLY,
+      extractedData: processedResult.extractedData,
+      metadata: processedResult.metadata
+    }
+  }
+}
+
 export async function openFile() {
+  const mainWindow = BrowserWindow.getFocusedWindow()
+  let dataObject: DataObject
+
   try {
     const result = await openFileDialog()
-    const mainWindow = BrowserWindow.getFocusedWindow()
-    let status: string
 
     if (!result.canceled) {
       const filePath = result.filePaths[0]
       const processedResult = await readFileAndProcess(filePath)
-      const dataObject = {
-        extractedData: processedResult.extractedData,
-        metadata: processedResult.metadata
-      }
-      mainWindow?.webContents.send('get-config', dataObject)
-      status = ApiResponses.RESOLVED_SUCCESSFULLY
+      dataObject = createDataObject(processedResult)
     } else {
-      mainWindow?.webContents.send('get-config', null)
-      status = ApiResponses.OPERATION_CANCELLED
+      dataObject = { status: ApiResponses.OPERATION_CANCELLED }
     }
-    return status
   } catch (error) {
     console.error('Error:', error)
-    return ApiResponses.ERROR_RESOLVING_CONFIG
+    dataObject = { status: ApiResponses.ERROR_RESOLVING_CONFIG }
   }
+
+  mainWindow?.webContents.send('get-config', dataObject)
 }
 
 export async function saveFile(data: string) {
   try {
     const result = await saveFileDialog()
-    // @ts-ignore
-    if (!result.canceled && result.filePath.length > 0) {
-      // @ts-ignore
-      const filePath = result.filePath
+    if (!result.canceled && result.filePath!.length > 0) {
+      const filePath = result.filePath as string
       await fs.writeFile(filePath, data)
       console.info('Successfully saved')
       return ApiResponses.RESOLVED_SUCCESSFULLY
@@ -95,7 +106,7 @@ function isXML(content: string) {
 }
 
 ipcMain.handle('open-file-dialog', async (_event, _args) => {
-  return await openFile()
+  await openFile()
 })
 
 ipcMain.handle('save-file-dialog', async (_event, data) => {
