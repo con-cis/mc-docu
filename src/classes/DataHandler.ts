@@ -38,7 +38,7 @@ export class DataHandler {
   public toJSON(): string {
     return JSON.stringify({
       extractedData: this.dataObject.extractedData,
-      metadata: this.dataObject.metadata
+      metadata: this.dataObject?.metadata
     })
   }
 

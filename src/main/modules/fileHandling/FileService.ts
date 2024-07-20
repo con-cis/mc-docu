@@ -10,7 +10,7 @@ import { isJSON, isXML } from '../../utils/Validator'
 import { IpcHandler } from '../../../classes/IpcHandler'
 
 // Initialize IPC handlers
-new IpcHandler();
+new IpcHandler()
 
 const dataHandler = DataHandler.getInstance()
 
@@ -68,7 +68,11 @@ export async function openFile(): Promise<ApiResponses> {
     dataHandler.setDataObject(new Error())
   }
   mainWindow?.webContents.send('get-config', dataHandler.dataObject)
-  return dataHandler.dataObject.status
+  if (dataHandler.dataObject?.status) {
+    return dataHandler.dataObject.status
+  } else {
+    return ApiResponses.ERROR_RESOLVING_CONFIG
+  }
 }
 
 export async function saveFile(): Promise<ApiResponses> {

@@ -41,24 +41,23 @@ headers.value.push(
 
 function fetchConfig(): void {
   window.api.onGetConfig((_event, data: ConfigData) => {
-    if (data.extractedData)
-      switch (data.status) {
-        case ApiResponses.RESOLVED_SUCCESSFULLY:
-          channels.value = data.extractedData.channels;
-          emit('channels', channels.value);
-          emit('configData', data);
-          break;
-        case ApiResponses.ERROR_RESOLVING_CONFIG:
-          hasErrors.value = true;
-          isLoading.value = false;
-          break;
-        case ApiResponses.OPERATION_CANCELLED:
-          isLoading.value = false;
-          break;
-        default:
-          isLoading.value = false;
-          break;
-      }
+    switch (data.status) {
+      case ApiResponses.RESOLVED_SUCCESSFULLY:
+        channels.value = data.extractedData?.channels;
+        emit('channels', channels.value);
+        emit('configData', data);
+        break;
+      case ApiResponses.ERROR_RESOLVING_CONFIG:
+        hasErrors.value = true;
+        isLoading.value = false;
+        break;
+      case ApiResponses.OPERATION_CANCELLED:
+        isLoading.value = false;
+        break;
+      default:
+        isLoading.value = false;
+        break;
+    }
   });
 }
 
