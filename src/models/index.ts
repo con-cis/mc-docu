@@ -1,4 +1,5 @@
 export * from './ChannelData'
+export * from './DataObject'
 export * from './ConnectorData'
 export * from './DestinationConnectorData'
 export * from './SourceConnectorData'
