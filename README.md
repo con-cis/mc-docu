@@ -72,6 +72,9 @@ Mirth Connect Config Documentation Tool utilizes a modern stack, including Vite 
 ```
 mc-docu
 src
+├── classes
+│   ├── DataHandler.ts
+│   └── IpcHandler.ts
 ├── enums
 │   ├── ApiResponses.ts
 │   ├── ConnectorType.ts
@@ -91,13 +94,17 @@ src
 │   │   └── Logger.ts
 │   └── utils
 │       ├── Common.ts
-│       └── ErrorHandling.ts
+│       ├── ErrorHandling.ts
+│       ├── StringEscape.ts
+│       └── Validator.ts
 ├── models
 │   ├── ChannelData.ts
 │   ├── ConnectorData.ts
 │   ├── DestinationConnectorData.ts
 │   ├── ExtractedData.ts
+│   ├── Header.ts
 │   ├── MetaData.ts
+│   ├── ServerConfiguration.ts
 │   ├── SourceConnectorData.ts
 │   ├── TransformerData.ts
 │   └── index.ts
@@ -113,7 +120,7 @@ src
 │       │       └── styles.less
 │       ├── components
 │       │   ├── DataTable.vue
-│       │   └── Versions.vue
+│       │   └── VersionInfos.vue
 │       ├── data
 │       │   ├── checkboxOptionsData.ts
 │       │   └── headerData.ts

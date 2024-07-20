@@ -16,7 +16,7 @@ jobs:
       fail-fast: true
       max-parallel: 2
       matrix:
-        node-version: [16.x, 18.x, 20.x]
+        node-version: [18.x, 20.x]
         experimental: [false]
         os: [macos-latest, ubuntu-latest, windows-latest]
 
