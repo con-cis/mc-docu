@@ -32,7 +32,7 @@ export async function processJsonFile(
  * @returns True if the object has the required properties, false otherwise.
  */
 function isValidJson(
-  obj: any
+  obj: unknown
 ): obj is ChannelData & { extractedData: ExtractedData; metadata: MetaData } {
   return typeof obj === 'object' && obj !== null && 'extractedData' in obj && 'metadata' in obj
 }

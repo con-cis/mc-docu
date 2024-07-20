@@ -6,25 +6,21 @@ module.exports = {
     es6: true,
     node: true
   },
-  parser: '@typescript-eslint/parser',
+  parser: 'vue-eslint-parser',
   parserOptions: {
-    ecmaFeatures: {
-      jsx: true
-    },
-    sourceType: 'module',
-    ecmaVersion: 2021
+    parser: '@typescript-eslint/parser'
   },
-  plugins: ['@typescript-eslint', 'solid'],
+  plugins: ['@typescript-eslint'],
   extends: [
     'eslint:recommended',
-    'plugin:solid/typescript',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:prettier/recommended'
+    // 'plugin:prettier/recommended',
+    'plugin:vue/vue3-recommended'
   ],
   rules: {
     '@typescript-eslint/ban-ts-comment': ['error', { 'ts-ignore': 'allow-with-description' }],
-    '@typescript-eslint/explicit-function-return-type': 'error',
+    '@typescript-eslint/explicit-function-return-type': 'warn',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-empty-function': ['error', { allow: ['arrowFunctions'] }],
     '@typescript-eslint/no-explicit-any': 'error',

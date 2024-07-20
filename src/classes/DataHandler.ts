@@ -1,19 +1,21 @@
 import ApiResponses from '../enums/ApiResponses'
-import { DataObject, MetaData, ExtractedData, ChannelData } from '../models'
+import { escapeString } from '../main/utils/StringEscape'
+import { MetaData, ExtractedData } from '../models'
+import { ConfigData } from '../types/ConfigData'
 
 /**
  * Singleton class for managing a data object and related functionality.
  */
 export class DataHandler {
   private static instance: DataHandler
-  public dataObject: DataObject
+  public dataObject: ConfigData
 
   /**
    * Private constructor to prevent direct instantiation.
    * Initializes the data object with an initial value.
    */
   private constructor() {
-    this.dataObject = { status: 'initialValue' }
+    this.dataObject = { status: undefined }
   }
 
   /**
@@ -45,34 +47,48 @@ export class DataHandler {
    * If processedResult is an error, returns an error status data object.
    * Otherwise, returns a success status data object with extractedData and metadata.
    * @param processedResult - The processed result to create the data object from.
-   * @returns A data object based on the processed result.
+   * @returns void.
    */
-  public createDataObject(
+  public setDataObject(
     processedResult: Error | { extractedData: ExtractedData; metadata: MetaData }
-  ): DataObject {
+  ): void {
     if (processedResult instanceof Error) {
-      return { status: ApiResponses.ERROR_RESOLVING_CONFIG }
+      this.dataObject = { status: ApiResponses.ERROR_RESOLVING_CONFIG }
     } else {
-      return {
-        status: ApiResponses.RESOLVED_SUCCESSFULLY,
+      this.dataObject = {
         extractedData: processedResult.extractedData,
-        metadata: processedResult.metadata
+        metadata: processedResult.metadata,
+        status: ApiResponses.RESOLVED_SUCCESSFULLY
       }
     }
   }
 
-  public addAnnotation(channelData: ChannelData): ApiResponses | ChannelData {
-    const channelsArray = this.dataObject.extractedData?.channels
+  public addAnnotation(data: { channelId: string; annotation: string }): ApiResponses {
+    const escapedAnnotation = escapeString(data.annotation)
     try {
-      channelsArray!.map((channel) => {
-        if (channel.id === channelData.id) {
-          channel.annotation = channelData.annotation
+      this.dataObject.extractedData?.channels?.forEach((channel) => {
+        if (channel.id === data.channelId) {
+          channel.annotation = escapedAnnotation
         }
-        return channel
       })
       return ApiResponses.RESOLVED_SUCCESSFULLY
     } catch (error) {
       console.error('Error adding annotation: ', error)
+      return ApiResponses.ERROR_RESOLVING_ANNOTATION
+    }
+  }
+  /**
+   * Sets data to an empty array
+   * @returns The singleton instance of DataObjectSingleton.
+   */
+  public resetData(): ApiResponses {
+    try {
+      if (DataHandler.instance) {
+        this.dataObject = { status: undefined }
+      }
+      return ApiResponses.RESOLVED_SUCCESSFULLY
+    } catch (error) {
+      console.error('Error resetting data: ', error)
       return ApiResponses.ERROR_RESOLVING_ANNOTATION
     }
   }

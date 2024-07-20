@@ -3,7 +3,7 @@ import { MenuItemConstructorOptions } from 'electron'
 export function configureMenu(
   appName: string,
   openFileCallback: () => Promise<string>,
-  saveFileCallback: (data: any) => Promise<string>
+  saveFileCallback: () => Promise<string>
 ): MenuItemConstructorOptions[] {
   return [
     {

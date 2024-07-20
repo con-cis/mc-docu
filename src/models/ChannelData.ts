@@ -13,5 +13,5 @@ export interface ChannelData {
   /** An array of destination connector data. */
   destinationConnectors: DestinationConnectorData[]
   /** Additional annotation data (if needed). */
-  annotation?: Record<string, any>
+  annotation?: string
 }

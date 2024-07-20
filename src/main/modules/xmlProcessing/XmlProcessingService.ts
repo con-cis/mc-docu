@@ -3,7 +3,8 @@ import {
   MetaData,
   ConnectorData,
   ChannelData,
-  DestinationConnectorData
+  DestinationConnectorData,
+  ServerConfiguration
 } from '../../../models/'
 import xml2js from 'xml2js'
 import ConnectorType from '../../../enums/ConnectorType'
@@ -37,7 +38,7 @@ export async function processXmlFile(
  * @param xmlData - The XML data as a string.
  * @returns A promise with the parsed XML data.
  */
-function parseXmlData(xmlData: string): Promise<any> {
+function parseXmlData(xmlData: string): Promise<ServerConfiguration> {
   const loginDataFilter = function (name: string): string {
     if (Object.values(FilteredProperties).includes(name as FilteredProperties)) {
       return ''
@@ -59,6 +60,7 @@ function parseXmlData(xmlData: string): Promise<any> {
  * @param data - The parsed XML data.
  * @returns Extracted data with typed structure.
  */
+// TODO: Remove any
 function extractProperties(data: any): ExtractedData {
   const channels: ChannelData[] = data.map((channelData: any) => {
     const sourceConnectorData = channelData.sourceConnector[0]

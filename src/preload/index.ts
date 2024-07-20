@@ -1,11 +1,18 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import { ConfigData } from '../types/ConfigData'
+import ApiResponses from '../enums/ApiResponses'
 
 // Custom APIs for renderer
 interface RendererAPI {
-  onGetConfig: (callback: (event: Electron.IpcRendererEvent, data: any) => void) => void
-  onOpenFileDialog: (_event: Electron.IpcRendererEvent, _data: any) => Promise<any>
-  onSaveFileDialog: (data: string) => Promise<any>
+  onGetConfig: (callback: (event: Electron.IpcRendererEvent, data: ConfigData) => void) => void
+  onOpenFileDialog: () => Promise<ApiResponses | Error>
+  onSaveFileDialog: (data: ConfigData) => Promise<ApiResponses | Error>
+  onSetAnnotation: (data: {
+    channelId: string
+    annotation: string
+  }) => Promise<ApiResponses | Error>
+  resetData: () => Promise<ApiResponses>
 }
 
 const api: RendererAPI = {
@@ -14,8 +21,11 @@ const api: RendererAPI = {
       callback(event, data)
     })
   },
-  onOpenFileDialog: (_event, _data) => ipcRenderer.invoke('open-file-dialog'),
-  onSaveFileDialog: (data) => ipcRenderer.invoke('save-file-dialog', data)
+  onOpenFileDialog: () => ipcRenderer.invoke('open-file-dialog'),
+  onSaveFileDialog: (data: ConfigData) => ipcRenderer.invoke('save-file-dialog', data),
+  onSetAnnotation: (data: { channelId: string; annotation: string }) =>
+    ipcRenderer.invoke('set-annotation', data),
+  resetData: () => ipcRenderer.invoke('reset-data'),
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to
