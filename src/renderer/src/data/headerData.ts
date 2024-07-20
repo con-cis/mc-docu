@@ -1,4 +1,6 @@
-export const headerData = [
+import { Header } from "src/models";
+
+export const headerData: Header[] = [
   { title: 'Name', key: 'name', value: 'name' },
   { title: 'ID', key: 'id', value: 'id' },
   {

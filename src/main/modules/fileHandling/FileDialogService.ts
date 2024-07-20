@@ -1,6 +1,8 @@
 import { BrowserWindow, dialog } from 'electron'
 
-export function openFileDialog() {
+export function openFileDialog(): Promise<
+  Electron.OpenDialogReturnValue | { canceled: boolean; filePaths: [] }
+> {
   const mainWindow = BrowserWindow.getFocusedWindow()
   if (mainWindow) {
     const options = {
@@ -13,7 +15,9 @@ export function openFileDialog() {
   }
 }
 
-export function saveFileDialog() {
+export function saveFileDialog(): Promise<
+  Electron.SaveDialogReturnValue | { canceled: boolean; filePath: [] }
+> {
   const mainWindow = BrowserWindow.getFocusedWindow()
   if (mainWindow) {
     const options = {

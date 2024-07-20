@@ -3,6 +3,8 @@
   "include": [
     "electron.vite.config.*",
     "src/main/**/*",
+    "src/types/**/*",
+    "src/classes/**/*",
     "src/models/**/*",
     "src/enums/**/*",
     "src/preload/*",
