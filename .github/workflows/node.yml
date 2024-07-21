@@ -16,7 +16,7 @@ jobs:
       fail-fast: true
       max-parallel: 2
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [20.x]
         experimental: [false]
         os: [macos-latest, ubuntu-latest, windows-latest]
 
@@ -45,10 +45,10 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: release_on_${{ matrix.os }}_node_${{ matrix.node-version }}
-          path: dist/
+          path: release/
           retention-days: 5
       - name: Download a single artifact
         uses: actions/download-artifact@v3
         with:
           name: release_on_${{ matrix.os }}_node_${{ matrix.node-version }}
-          path: dist/
+          path: release/
