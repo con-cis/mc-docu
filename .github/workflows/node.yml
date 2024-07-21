@@ -14,40 +14,53 @@ jobs:
 
     strategy:
       fail-fast: true
-      max-parallel: 2
+      max-parallel: 6
       matrix:
-        node-version: [20.x]
+        node-version: ['20x', 'latest']
         experimental: [false]
         os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
       - uses: actions/checkout@v3
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+
       - name: Install Dependencies
         run: npm install --force
+
       - name: Build Release Files
         run: npm run build --if-present
+
       - name: Electronegativity
         uses: doyensec/electronegativity-action@v2.0
+
       - name: Build for Windows
         if: startsWith(matrix.os, 'windows')
         run: npm run build:win
+
       - name: Build for macOS
         if: startsWith(matrix.os, 'macos')
         run: npm run build:mac
+
       - name: Build for Linux
         if: startsWith(matrix.os, 'ubuntu')
         run: npm run build:linux
+
+      - name: List Release Files
+        run: ls -la release/
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: release_on_${{ matrix.os }}_node_${{ matrix.node-version }}
           path: release/
           retention-days: 5
-      - name: Download a single artifact
+          if-no-files-found: warn
+
+      - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
           name: release_on_${{ matrix.os }}_node_${{ matrix.node-version }}
