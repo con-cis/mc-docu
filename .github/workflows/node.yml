@@ -61,7 +61,7 @@ jobs:
           if-no-files-found: warn
 
       - name: Download Artifact
-        uses: dist/download-artifact@v3
+        uses: actions/download-artifact@v3
         with:
           name: release_on_${{ matrix.os }}_node_${{ matrix.node-version }}
           path: dist/
