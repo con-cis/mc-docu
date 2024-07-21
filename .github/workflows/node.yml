@@ -50,18 +50,18 @@ jobs:
         run: npm run build:linux
 
       - name: List Release Files
-        run: ls -la release/
+        run: ls -la dist/
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: release_on_${{ matrix.os }}_node_${{ matrix.node-version }}
-          path: release/
+          path: dist/
           retention-days: 5
           if-no-files-found: warn
 
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: dist/download-artifact@v3
         with:
           name: release_on_${{ matrix.os }}_node_${{ matrix.node-version }}
-          path: release/
+          path: dist/
