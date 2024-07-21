@@ -3,6 +3,16 @@ name: MC Docu CI
 on:
   push:
     branches: ['master']
+    paths-ignore:
+      - '**.md'
+      - '**.spec.js'
+      - '.idea'
+      - '.vscode'
+      - '.dockerignore'
+      - 'Dockerfile'
+      - '.gitignore'
+      - '.github/**'
+      - '!.github/workflows/build.yml'
   pull_request:
     branches: ['master']
 
@@ -10,20 +20,19 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 360
-    continue-on-error: ${{ matrix.experimental }}
 
     strategy:
       fail-fast: true
       max-parallel: 4
       matrix:
         node-version: ['latest']
-        experimental: [false]
         os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
@@ -32,21 +41,26 @@ jobs:
         run: npm install --force
 
       - name: Build Release Files
-        run: npm run build --if-present
+        run: npm run build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run Tests
+        run: npm test
 
       - name: Electronegativity
         uses: doyensec/electronegativity-action@v2.0
 
       - name: Build for Windows
-        if: startsWith(matrix.os, 'windows')
+        if: matrix.os == 'windows-latest'
         run: npm run build:win
 
       - name: Build for macOS
-        if: startsWith(matrix.os, 'macos')
+        if: matrix.os == 'macos-latest'
         run: npm run build:mac
 
       - name: Build for Linux
-        if: startsWith(matrix.os, 'ubuntu')
+        if: matrix.os == 'ubuntu-latest'
         run: npm run build:linux
 
       - name: List Release Files (Linux & macOS)
