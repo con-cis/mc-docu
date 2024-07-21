@@ -65,13 +65,19 @@ export class DataHandler {
 
   public addAnnotation(data: { channelId: string; annotation: string }): ApiResponses {
     const escapedAnnotation = escapeString(data.annotation)
+    let channelFound = false
     try {
       this.dataObject.extractedData?.channels?.forEach((channel) => {
         if (channel.id === data.channelId) {
           channel.annotation = escapedAnnotation
+          channelFound = true
         }
       })
-      return ApiResponses.RESOLVED_SUCCESSFULLY
+      if (channelFound) {
+        return ApiResponses.RESOLVED_SUCCESSFULLY
+      } else {
+        return ApiResponses.ERROR_RESOLVING_ANNOTATION
+      }
     } catch (error) {
       console.error('Error adding annotation: ', error)
       return ApiResponses.ERROR_RESOLVING_ANNOTATION

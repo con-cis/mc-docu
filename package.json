@@ -12,6 +12,8 @@
   },
   "scripts": {
     "format": "prettier --write .",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts,.vue --fix",
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
     "typecheck:web": "vue-tsc --noEmit -p tsconfig.web.json --composite false",
@@ -52,6 +54,8 @@
     "prettier": "^3.3.3",
     "typescript": "^5.5.3",
     "vite": "^5.3.4",
+    "vite-tsconfig-paths": "^4.3.2",
+    "vitest": "^2.0.3",
     "vue": "^3.4.33",
     "vue-tsc": "^2.0.26"
   },

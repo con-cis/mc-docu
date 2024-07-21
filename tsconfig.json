@@ -1,5 +1,28 @@
 {
-  "files": [],
+  "compilerOptions": {
+    "target": "ESNext",                                 // Modern JavaScript target
+    "module": "ESNext",                                 // Use ES module system
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],           // Include necessary libraries
+    "allowJs": true,                                    // Allow JavaScript files
+    "skipLibCheck": true,                               // Skip type checking of declaration files
+    "esModuleInterop": true,                            // Enable compatibility with CommonJS modules
+    "allowSyntheticDefaultImports": true,               // Allow default imports from modules with no default export
+    "strict": true,                                     // Enable all strict type-checking options
+    "forceConsistentCasingInFileNames": true,           // Enforce consistent file naming
+    "noFallthroughCasesInSwitch": true,                 // Report errors for fallthrough cases in switch statements
+    "moduleResolution": "node",                         // Use Node.js module resolution
+    "resolveJsonModule": true,                          // Include .json files as modules
+    "isolatedModules": true,                            // Ensure each file is treated as a separate module
+    "noEmit": true,                                     // Do not emit outputs
+    "baseUrl": ".",                                     // Base directory for non-relative module names
+    "paths": {
+      "@/*": ["src/*"]                                  // Aliases for module imports
+    },
+    "typeRoots": ["./node_modules/@types", "./types"],  // Specify type definition locations
+    "jsx": "react-jsx"                                  // Use React JSX transform
+  },
+  "include": ["src", "tests"],                           // Files to be included
+  "exclude": ["node_modules", "dist"],                   // Files to be excluded
   "references": [
     {
       "path": "./tsconfig.node.json"
