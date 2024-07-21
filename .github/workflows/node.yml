@@ -13,8 +13,8 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
 
     strategy:
-      fail-fast: true
-      max-parallel: 6
+      fail-fast: false
+      max-parallel: 2
       matrix:
         node-version: ['latest']
         experimental: [false]
