@@ -29,7 +29,7 @@ const props = defineProps({
   },
   resetChannels: {
     type: Boolean,
-    default: true
+    default: undefined
   }
 })
 
@@ -85,8 +85,8 @@ const saveAnnotation = (): void => {
   window.api.onSetAnnotation({ channelId: selectedChannel.value?.id ?? "", annotation: selectedChannel.value?.annotation ?? "" })
     .then((result) => {
       result === ApiResponses.RESOLVED_SUCCESSFULLY ?
-        wasSuccessful.value = true :
-        hasErrorsAnnotation.value = true
+        (wasSuccessful.value = true, isResetAction.value = false) :
+        (hasErrorsAnnotation.value = true, isResetAction.value = false)
     })
 };
 
