@@ -147,7 +147,7 @@ $ npm run build:linux
 
 ### Automatic generated builds
 
-Links to automated generated builds for [mac os, windows and linux](https://github.com/con-cis/mc-docu/actions/runs/6487526125) from the CI action workflow
+Links to automated generated builds for [mac os, windows and linux](https://github.com/con-cis/mc-docu/actions/) from the CI action workflow runs
 
 ## License
 
