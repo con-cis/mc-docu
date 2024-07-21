@@ -76,7 +76,7 @@ jobs:
         with:
           name: release_on_${{ matrix.os }}_node_${{ matrix.node-version }}
           path: dist/
-          retention-days: 5
+          retention-days: 62
           if-no-files-found: warn
 
       - name: Download Artifact
