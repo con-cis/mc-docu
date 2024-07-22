@@ -39,7 +39,7 @@ Mirth Connect Config Documentation Tool supports the following features:
 
 Please note the following import limitations:
 
-- **Channel Imports**: Mirth Connect Config Documentation Tool currently supports the import of Mirth Connect configurations but does not handle channel import xml files.
+- **Channel Imports**: Mirth Connect Config Documentation Tool currently supports the import of Mirth Connect configurations or generated JSON from this tool but does not handle export xml files.
 
 - **Groupings**: While Mirth Connect Config Documentation Tool can display channel details, it may not fully support complex grouping and organization within Mirth Connect configurations.
 
