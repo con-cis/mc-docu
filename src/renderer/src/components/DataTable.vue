@@ -166,7 +166,7 @@ onMounted(fetchConfig);
   >
     <v-data-table
       v-model:items-per-page="itemsPerPage"
-      :headers="(filteredHeaders as any)"
+      :headers="filteredHeaders"
       :items="channels"
       :search="props.search"
       :hover="true"
@@ -175,25 +175,10 @@ onMounted(fetchConfig);
       class="elevation-1 mt-5"
       show-expand
     >
-      <template #table-rows="{ item, columns, rowIndex }">
-        <tr :key="'row--' + rowIndex">
-          <td>{{ item.name }}</td>
-          <template
-            v-for="(column, colIndex) in columns"
-            :key="'col--' + colIndex"
-          >
-            <td v-if="column.value !== 'name'">
-              {{ item.sourceConnector[column.key] }}
-            </td>
-          </template>
-        </tr>
-      </template>
-
       <!-- expanded -->
-      <!-- TODO: Try with data-table-row https://vuetifyjs.com/en/api/v-data-table-row/ -->
       <template #expanded-row="{ item, columns }">
         <tr
-          v-for="(destination, rowIndex) in ((item as ChannelData).destinationConnectors)"
+          v-for="(destination, rowIndex) in item.destinationConnectors"
           :key="'d-exp-' + rowIndex"
           class="text-medium-emphasis"
         >
@@ -203,7 +188,7 @@ onMounted(fetchConfig);
             :key="'c-exp-' + colIndex"
           >
             <td v-if="column.key !== 'name'">
-              {{ (destination as any)[column.key || "null"] }}
+              {{ destination[column.key!] }}
             </td>
           </template>
         </tr>
@@ -215,10 +200,9 @@ onMounted(fetchConfig);
         <v-icon
           size="small"
           class="mx-auto"
+          icon="mdi-note-plus-outline"
           @click.stop="setSelectedChannel(item as ChannelData)"
-        >
-          mdi-note-plus-outline
-        </v-icon>
+        />
         <v-dialog
           v-model="dialog"
           persistent
@@ -247,18 +231,16 @@ onMounted(fetchConfig);
                 class="me-2 mb-3"
                 color="blue-darken-1"
                 variant="text"
+                text="Close"
                 @click="dialog = false"
-              >
-                Close
-              </v-btn>
+              />
               <v-btn
                 class="me-4 mb-3"
                 color="blue-darken-1"
                 variant="elevated"
+                text="Save"
                 @click="saveAnnotation(); dialog = false"
-              >
-                Save
-              </v-btn>
+              />
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -266,5 +248,3 @@ onMounted(fetchConfig);
     </v-data-table>
   </v-card>
 </template>
-
-<style></style>

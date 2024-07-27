@@ -60,9 +60,8 @@ function parseXmlData(xmlData: string): Promise<ServerConfiguration> {
  * @param data - The parsed XML data.
  * @returns Extracted data with typed structure.
  */
-// TODO: Remove any
-function extractProperties(data: any): ExtractedData {
-  const channels: ChannelData[] = data.map((channelData: any) => {
+function extractProperties(data): ExtractedData {
+  const channels: ChannelData[] = data.map((channelData) => {
     const sourceConnectorData = channelData.sourceConnector[0]
     const destinationConnectorsData = channelData.destinationConnectors[0].connector
 
@@ -99,7 +98,7 @@ function extractProperties(data: any): ExtractedData {
  * @param type - The connector type.
  * @returns Extracted connector properties with typed structure.
  */
-function extractConnectorProperties(data: any, type: ConnectorType): ConnectorData {
+function extractConnectorProperties(data, type: ConnectorType): ConnectorData {
   const connectorProperties: ConnectorData = {
     inboundDataType: data.transformer?.[0]?.inboundDataType?.[0] ?? '',
     outboundDataType: data.transformer?.[0]?.outboundDataType?.[0] ?? '',
