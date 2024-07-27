@@ -175,24 +175,10 @@ onMounted(fetchConfig);
       class="elevation-1 mt-5"
       show-expand
     >
-      <template #table-rows="{ item, columns, rowIndex }">
-        <tr :key="'row--' + rowIndex">
-          <td>{{ item.name }}</td>
-          <template
-            v-for="(column, colIndex) in columns"
-            :key="'col--' + colIndex"
-          >
-            <td v-if="column.value !== 'name'">
-              {{ item.sourceConnector[column.key] }}
-            </td>
-          </template>
-        </tr>
-      </template>
-
       <!-- expanded -->
       <template #expanded-row="{ item, columns }">
         <tr
-          v-for="(destination, rowIndex) in ((item as ChannelData).destinationConnectors)"
+          v-for="(destination, rowIndex) in item.destinationConnectors"
           :key="'d-exp-' + rowIndex"
           class="text-medium-emphasis"
         >
@@ -202,13 +188,14 @@ onMounted(fetchConfig);
             :key="'c-exp-' + colIndex"
           >
             <td v-if="column.key !== 'name'">
-              {{ destination[column.key] }}
+              {{ destination[column.key!] }}
             </td>
           </template>
         </tr>
       </template>
       <!-- annotation dialog -->
       <!-- check this out: https://vuetifyjs.com/en/components/data-tables/basics/#crud-actions -->
+      <!-- eslint-disable-next-line vue/valid-v-slot -->
       <template #item.annotation="{ item }">
         <v-icon
           size="small"
@@ -244,18 +231,16 @@ onMounted(fetchConfig);
                 class="me-2 mb-3"
                 color="blue-darken-1"
                 variant="text"
+                text="Close"
                 @click="dialog = false"
-              >
-                Close
-              </v-btn>
+              />
               <v-btn
                 class="me-4 mb-3"
                 color="blue-darken-1"
                 variant="elevated"
+                text="Save"
                 @click="saveAnnotation(); dialog = false"
-              >
-                Save
-              </v-btn>
+              />
             </v-card-actions>
           </v-card>
         </v-dialog>

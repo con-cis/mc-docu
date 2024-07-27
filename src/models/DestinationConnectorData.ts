@@ -7,4 +7,5 @@ export interface DestinationConnectorData extends ConnectorData {
   name: string
   transportName: string
   enabled: 'true' | 'false'
+  [key: string]: unknown
 }
