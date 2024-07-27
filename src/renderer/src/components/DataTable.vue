@@ -203,13 +203,14 @@ onMounted(fetchConfig);
             :key="'c-exp-' + colIndex"
           >
             <td v-if="column.key !== 'name'">
-              {{ destination[column.key || "null"] }}
+              {{ (destination as any)[column.key || "null"] }}
             </td>
           </template>
         </tr>
       </template>
       <!-- annotation dialog -->
       <!-- check this out: https://vuetifyjs.com/en/components/data-tables/basics/#crud-actions -->
+      <!-- eslint-disable-next-line vue/valid-v-slot -->
       <template #item.annotation="{ item }">
         <v-icon
           size="small"
