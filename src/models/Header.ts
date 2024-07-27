@@ -3,5 +3,5 @@ export interface Header {
   key: string
   value: string
   sortable?: boolean
-  align?: string
+  align?: "start" | "end" | "center" | undefined
 }

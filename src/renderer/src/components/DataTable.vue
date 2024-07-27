@@ -166,7 +166,7 @@ onMounted(fetchConfig);
   >
     <v-data-table
       v-model:items-per-page="itemsPerPage"
-      :headers="(filteredHeaders as any)"
+      :headers="filteredHeaders"
       :items="channels"
       :search="props.search"
       :hover="true"
@@ -190,7 +190,6 @@ onMounted(fetchConfig);
       </template>
 
       <!-- expanded -->
-      <!-- TODO: Try with data-table-row https://vuetifyjs.com/en/api/v-data-table-row/ -->
       <template #expanded-row="{ item, columns }">
         <tr
           v-for="(destination, rowIndex) in ((item as ChannelData).destinationConnectors)"
@@ -203,22 +202,20 @@ onMounted(fetchConfig);
             :key="'c-exp-' + colIndex"
           >
             <td v-if="column.key !== 'name'">
-              {{ (destination as any)[column.key || "null"] }}
+              {{ destination[column.key] }}
             </td>
           </template>
         </tr>
       </template>
       <!-- annotation dialog -->
       <!-- check this out: https://vuetifyjs.com/en/components/data-tables/basics/#crud-actions -->
-      <!-- eslint-disable-next-line vue/valid-v-slot -->
       <template #item.annotation="{ item }">
         <v-icon
           size="small"
           class="mx-auto"
+          icon="mdi-note-plus-outline"
           @click.stop="setSelectedChannel(item as ChannelData)"
-        >
-          mdi-note-plus-outline
-        </v-icon>
+        />
         <v-dialog
           v-model="dialog"
           persistent
@@ -266,5 +263,3 @@ onMounted(fetchConfig);
     </v-data-table>
   </v-card>
 </template>
-
-<style></style>
