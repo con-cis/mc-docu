@@ -2,19 +2,21 @@ name: MC Docu CI
 
 on:
   push:
-    branches: ['master']
+    branches:
+      - master
     paths-ignore:
       - '**.md'
       - '**.spec.js'
-      - '.idea'
-      - '.vscode'
+      - '.idea/**'
+      - '.vscode/**'
       - '.dockerignore'
       - 'Dockerfile'
       - '.gitignore'
       - '.github/**'
       - '!.github/workflows/build.yml'
   pull_request:
-    branches: ['master']
+    branches:
+      - master
 
 jobs:
   build:
@@ -30,13 +32,13 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.version }}
-          cache: npm
+          cache: 'npm'
 
       - name: Install Dependencies
         run: npm install --force
@@ -73,7 +75,7 @@ jobs:
         run: dir dist
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: release_on_${{ matrix.os }}_node_${{ matrix.version }}
           path: dist/
@@ -81,7 +83,7 @@ jobs:
           if-no-files-found: warn
 
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: release_on_${{ matrix.os }}_node_${{ matrix.version }}
           path: dist/
