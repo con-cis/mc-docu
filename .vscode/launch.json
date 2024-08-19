@@ -14,7 +14,8 @@
                 "--sourcemap"
             ],
             "env": {
-                "REMOTE_DEBUGGING_PORT": "9222"
+                "REMOTE_DEBUGGING_PORT": "9222",
+                "NODE_ENV": "development",
             }
         },
         {

@@ -1,5 +1,4 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import { electronAPI } from '@electron-toolkit/preload'
 import { ConfigData } from '../types/ConfigData'
 import ApiResponses from '../enums/ApiResponses'
 
@@ -25,23 +24,28 @@ const api: RendererAPI = {
   onSaveFileDialog: (data: ConfigData) => ipcRenderer.invoke('save-file-dialog', data),
   onSetAnnotation: (data: { channelId: string; annotation: string }) =>
     ipcRenderer.invoke('set-annotation', data),
-  resetData: () => ipcRenderer.invoke('reset-data'),
+  resetData: () => ipcRenderer.invoke('reset-data')
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise
 // just add to the DOM global.
+console.log(process.env.NODE_ENV)
 if (process.contextIsolated) {
   try {
-    contextBridge.exposeInMainWorld('electron', electronAPI)
+    // Expose APIs conditionally based on the environment
+    if (process.env.NODE_ENV === 'development' || process.env.DEBUG) {
+      import('@electron-toolkit/preload')
+        .then((module) => {
+          const electronAPI = module.electronAPI
+          contextBridge.exposeInMainWorld('electron', electronAPI)
+        })
+        .catch((err) => {
+          console.error('Failed to load electronAPI in development mode:', err)
+        })
+    }
     contextBridge.exposeInMainWorld('api', api)
   } catch (error) {
     console.error(error)
   }
-} else {
-  // Fallback for older Electron versions or when context isolation is disabled.
-  // @ts-ignore (define in dts)
-  window.electron = electronAPI
-  // @ts-ignore (define in dts)
-  window.api = api
 }

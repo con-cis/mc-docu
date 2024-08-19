@@ -14,7 +14,7 @@ function createWindow(): void {
     autoHideMenuBar: false,
     webPreferences: {
       preload: resolve(__dirname, '../preload/index.js'),
-      sandbox: false,
+      sandbox: process.env.NODE_ENV === 'production',
       disableBlinkFeatures: 'Auxclick',
       webSecurity: true,
       nodeIntegration: false,
