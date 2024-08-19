@@ -41,7 +41,7 @@ jobs:
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm install --force
+        run: npm ci --force
 
       - name: Build Release Files
         run: npm run build
