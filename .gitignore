@@ -25,7 +25,7 @@ dist-electron
 *.sw?
 
 # lockfile
-package-lock.json
+# package-lock.json
 pnpm-lock.yaml
 yarn.lock
 
@@ -37,3 +37,6 @@ out
 
 # examples
 examples
+
+# owasp dependency-check-report
+dependency-check-report.html
