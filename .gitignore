@@ -37,3 +37,6 @@ out
 
 # examples
 examples
+
+# owasp dependency-check-report
+dependency-check-report.html

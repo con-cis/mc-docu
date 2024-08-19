@@ -75,17 +75,15 @@ const handleSelectNone = (): void => {
         <v-btn
           density="compact"
           class="mb-4 ms-4"
+          text="All"
           @click="handleSelectAll"
-        >
-          All
-        </v-btn>
+        />
         <v-btn
           density="compact"
           class="mb-4 ms-2"
+          text="None"
           @click="handleSelectNone"
-        >
-          None
-        </v-btn>
+        />
         <template
           v-for="checkbox in checkboxOptionsData"
           :key="checkbox.key"
