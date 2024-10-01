@@ -60,7 +60,7 @@
     "vite-tsconfig-paths": "^5.0.1",
     "vitest": "^2.0.5",
     "vue": "^3.4.38",
-    "vue-tsc": "^2.1.4"
+    "vue-tsc": "^2.1.6"
   },
   "license": "MIT",
   "keywords": [
