@@ -9,7 +9,7 @@
 - [Getting Started](#getting-started)
 - [Architecture](#architecture)
 - [Recommended IDE Setup](#recommended-ide-setup)
-- [Procject structure](#procject-structure)
+- [Project structure](#project-structure)
   - [Build](#build)
   - [Automatic generated builds](#automatic-generated-builds)
 - [License](#license)
