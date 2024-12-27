@@ -1,3 +1,10 @@
+/**
+ * Array of checkbox options for configuration settings
+ * Each object contains:
+ * @property {string} key - Unique identifier for the option
+ * @property {string} value - Value to be used for the option
+ * @property {string} label - Display label for the option
+ */
 export const checkboxOptionsData = [
   { key: 'id', value: 'id', label: 'ID' },
   { key: 'connectorName', value: 'connectorName', label: 'Connector Name' },

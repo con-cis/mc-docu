@@ -1,4 +1,12 @@
 <script setup lang="ts">
+/**
+ * @file Main application component for Mirth Connect Channel Overview
+ * @description Provides UI for viewing and managing Mirth Connect channels with filtering and export capabilities
+ */
+
+/**
+ * @vue-script-setup
+ */
 import { ref } from 'vue'
 import Versions from './components/VersionInfos.vue'
 import DataTable from './components/DataTable.vue'
@@ -8,15 +16,31 @@ import { ChannelData } from '../../models'
 import ApiResponses from '../../enums/ApiResponses'
 import '@mdi/font/css/materialdesignicons.css'
 
-const search = ref('')
-const drawer = ref(false)
-const channels = ref<ChannelData[] | []>([])
-const configData = ref<ConfigData | undefined>(undefined)
-const resetChannels = ref(false)
-const timeout = ref(5000)
-const hasErrors = ref(false)
-const wasSuccessful = ref(false)
+/** Search text for filtering channels */
+const search = ref<string>('')
 
+/** Controls visibility of navigation drawer */
+const drawer = ref<boolean>(false)
+
+/**  Array of channel data */
+const channels = ref<ChannelData[] | []>([])
+
+/** Configuration data for Mirth Connect */
+const configData = ref<ConfigData | undefined>(undefined)
+
+/** Flag to trigger channel reset */
+const resetChannels = ref<boolean>(false)
+
+/** Timeout duration for notifications in ms */
+const timeout = ref<number>(5000)
+
+/** Error state flag */
+const hasErrors = ref<boolean>(false)
+
+/** Success state flag */
+const wasSuccessful = ref<boolean>(false)
+
+/** Default columns to display in channel table */
 const DEFAULT_COLUMNS = [
   'id',
   'connectorName',
@@ -26,8 +50,14 @@ const DEFAULT_COLUMNS = [
   'enabled'
 ]
 
+/** Currently displayed table columns */
 const filterColumns = ref<string[]>(DEFAULT_COLUMNS)
 
+/**
+ * Toggles visibility of a column in the table
+ * @param {string} key - Column identifier to toggle
+ * @returns {void}
+ */
 const handleFilterColumnChange = (key: string): void => {
   if (!filterColumns.value.includes(key)) {
     filterColumns.value.push(key)
@@ -36,6 +66,10 @@ const handleFilterColumnChange = (key: string): void => {
   }
 }
 
+/**
+ * Handles file export operation
+ * @returns {Promise<void>}
+ */
 const handleExportFile = async (): Promise<void> => {
   try {
     const response = await window.api.onSaveFileDialog()
@@ -58,10 +92,18 @@ const handleExportFile = async (): Promise<void> => {
   }
 }
 
+/**
+ * Selects all available columns for display
+ * @returns {void}
+ */
 const handleSelectAll = (): void => {
   filterColumns.value = checkboxOptionsData.map((option) => option.key)
 }
 
+/**
+ * Deselects all columns
+ * @returns {void}
+ */
 const handleSelectNone = (): void => {
   filterColumns.value = []
 }

@@ -1,9 +1,23 @@
+/**
+ * @fileoverview Main electron application file that handles window creation, app lifecycle, and security settings
+ * @module main
+ * @requires electron
+ * @requires path
+ * @requires @electron-toolkit/utils
+ * @requires ./utils/Common
+ * @requires ./modules/fileHandling/FileService
+ */
 import { app, shell, BrowserWindow, Menu, session } from 'electron'
 import { resolve, join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { configureMenu } from './utils/Common'
 import { openFile, saveFile } from './modules/fileHandling/FileService'
 
+/**
+ * Creates and configures the main application window
+ * @function createWindow
+ * @returns {void}
+ */
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -42,8 +56,6 @@ function createWindow(): void {
 }
 
 // This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')

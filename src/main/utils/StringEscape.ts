@@ -1,7 +1,8 @@
 /**
  * Escapes special characters in a string to prevent injection attacks.
- * @param str - The input string to escape.
- * @returns The escaped string.
+ * @function escapeString
+ * @param {string} str - The input string to escape.
+ * @returns {string} The escaped string.
  */
 export function escapeString(str: string): string {
   return str

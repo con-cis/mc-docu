@@ -8,15 +8,6 @@ import { ConfigData } from '../types/ConfigData'
  */
 export class DataHandler {
   private static instance: DataHandler
-  public dataObject: ConfigData
-
-  /**
-   * Private constructor to prevent direct instantiation.
-   * Initializes the data object with an initial value.
-   */
-  private constructor() {
-    this.dataObject = { status: undefined }
-  }
 
   /**
    * Retrieves the singleton instance of the DataObjectSingleton class.
@@ -31,15 +22,55 @@ export class DataHandler {
     return DataHandler.instance
   }
 
+  public dataObject: ConfigData
+
   /**
-   * Converts the data object to its JSON representation.
-   * @returns A JSON string representing the data object.
+   * Private constructor to prevent direct instantiation.
+   * Initializes the data object with an initial value.
    */
-  public toJSON(): string {
-    return JSON.stringify({
-      extractedData: this.dataObject.extractedData,
-      metadata: this.dataObject?.metadata
-    })
+  private constructor() {
+    this.dataObject = { status: undefined }
+  }
+
+  /**
+   * Adds Annotations to a Channel
+   * @returns API Response of operation.
+   */
+  public addAnnotation(data: { channelId: string; annotation: string }): ApiResponses {
+    const escapedAnnotation = escapeString(data.annotation)
+    let channelFound = false
+    try {
+      this.dataObject.extractedData?.channels?.forEach((channel) => {
+        if (channel.id === data.channelId) {
+          channel.annotation = escapedAnnotation
+          channelFound = true
+        }
+      })
+      if (channelFound) {
+        return ApiResponses.RESOLVED_SUCCESSFULLY
+      } else {
+        return ApiResponses.ERROR_RESOLVING_ANNOTATION
+      }
+    } catch (error) {
+      console.error('Error adding annotation: ', error)
+      return ApiResponses.ERROR_RESOLVING_ANNOTATION
+    }
+  }
+
+  /**
+   * Sets data to an empty array
+   * @returns The singleton instance of DataObjectSingleton.
+   */
+  public resetData(): ApiResponses {
+    try {
+      if (DataHandler.instance) {
+        this.dataObject = { status: undefined }
+      }
+      return ApiResponses.RESOLVED_SUCCESSFULLY
+    } catch (error) {
+      console.error('Error resetting data: ', error)
+      return ApiResponses.ERROR_RESOLVING_ANNOTATION
+    }
   }
 
   /**
@@ -63,39 +94,14 @@ export class DataHandler {
     }
   }
 
-  public addAnnotation(data: { channelId: string; annotation: string }): ApiResponses {
-    const escapedAnnotation = escapeString(data.annotation)
-    let channelFound = false
-    try {
-      this.dataObject.extractedData?.channels?.forEach((channel) => {
-        if (channel.id === data.channelId) {
-          channel.annotation = escapedAnnotation
-          channelFound = true
-        }
-      })
-      if (channelFound) {
-        return ApiResponses.RESOLVED_SUCCESSFULLY
-      } else {
-        return ApiResponses.ERROR_RESOLVING_ANNOTATION
-      }
-    } catch (error) {
-      console.error('Error adding annotation: ', error)
-      return ApiResponses.ERROR_RESOLVING_ANNOTATION
-    }
-  }
   /**
-   * Sets data to an empty array
-   * @returns The singleton instance of DataObjectSingleton.
+   * Converts the data object to its JSON representation.
+   * @returns A JSON string representing the data object.
    */
-  public resetData(): ApiResponses {
-    try {
-      if (DataHandler.instance) {
-        this.dataObject = { status: undefined }
-      }
-      return ApiResponses.RESOLVED_SUCCESSFULLY
-    } catch (error) {
-      console.error('Error resetting data: ', error)
-      return ApiResponses.ERROR_RESOLVING_ANNOTATION
-    }
+  public toJSON(): string {
+    return JSON.stringify({
+      extractedData: this.dataObject.extractedData,
+      metadata: this.dataObject?.metadata
+    })
   }
 }

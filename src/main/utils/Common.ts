@@ -1,5 +1,12 @@
 import { MenuItemConstructorOptions } from 'electron'
 
+/**
+ * Configures the application menu structure
+ * @param appName - The name of the application to display in the menu
+ * @param openFileCallback - Callback function triggered when "Open File" is selected
+ * @param saveFileCallback - Callback function triggered when "Save File" is selected
+ * @returns Array of menu items that define the application's menu structure
+ */
 export function configureMenu(
   appName: string,
   openFileCallback: () => Promise<string>,

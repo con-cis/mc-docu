@@ -1,3 +1,7 @@
+/**
+ * @fileoverview Handles file operations including reading, processing and saving JSON/XML files
+ */
+
 import fs from 'fs/promises'
 import { processJsonFile } from '../jsonProcessing/JsonProcessingService'
 import { processXmlFile } from '../xmlProcessing/XmlProcessingService'
@@ -14,6 +18,11 @@ new IpcHandler()
 
 const dataHandler = DataHandler.getInstance()
 
+/**
+ * Reads and processes a file from the given file path
+ * @param filePath - Path to the file to be processed
+ * @returns Object containing extracted data and metadata, or Error if processing fails
+ */
 async function readFileAndProcess(filePath: string): Promise<
   | {
       extractedData: ExtractedData
@@ -38,6 +47,11 @@ async function readFileAndProcess(filePath: string): Promise<
   }
 }
 
+/**
+ * Determines the type of file based on content
+ * @param content - String content of the file
+ * @returns 'JSON', 'XML' or 'unknown format'
+ */
 function getFileType(content: string): string {
   let format: string
   if (isJSON(content)) {
@@ -50,6 +64,10 @@ function getFileType(content: string): string {
   return format
 }
 
+/**
+ * Opens a file dialog and processes the selected file
+ * @returns ApiResponse indicating the operation result
+ */
 export async function openFile(): Promise<ApiResponses> {
   const mainWindow = BrowserWindow.getFocusedWindow()
 
@@ -75,6 +93,10 @@ export async function openFile(): Promise<ApiResponses> {
   }
 }
 
+/**
+ * Opens a save file dialog and saves the current data
+ * @returns ApiResponse indicating the operation result
+ */
 export async function saveFile(): Promise<ApiResponses> {
   try {
     const result = await saveFileDialog()

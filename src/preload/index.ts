@@ -1,19 +1,54 @@
+/**
+ * @fileoverview Preload script that exposes APIs to the renderer process
+ */
+
 import { contextBridge, ipcRenderer } from 'electron'
 import { ConfigData } from '../types/ConfigData'
 import ApiResponses from '../enums/ApiResponses'
 
-// Custom APIs for renderer
+/**
+ * Interface defining the API exposed to the renderer process
+ */
 interface RendererAPI {
+  /**
+   * Register callback for receiving config data from main process
+   * @param callback Function to handle config data
+   */
   onGetConfig: (callback: (event: Electron.IpcRendererEvent, data: ConfigData) => void) => void
+
+  /**
+   * Open file dialog to select config file
+   * @returns Promise resolving to API response or error
+   */
   onOpenFileDialog: () => Promise<ApiResponses | Error>
+
+  /**
+   * Save config data to file
+   * @param data Config data to save
+   * @returns Promise resolving to API response or error
+   */
   onSaveFileDialog: (data: ConfigData) => Promise<ApiResponses | Error>
+
+  /**
+   * Set annotation for a channel
+   * @param data Object containing channel ID and annotation text
+   * @returns Promise resolving to API response or error
+   */
   onSetAnnotation: (data: {
     channelId: string
     annotation: string
   }) => Promise<ApiResponses | Error>
+
+  /**
+   * Reset application data
+   * @returns Promise resolving to API response
+   */
   resetData: () => Promise<ApiResponses>
 }
 
+/**
+ * Implementation of the renderer API
+ */
 const api: RendererAPI = {
   onGetConfig: (callback) => {
     ipcRenderer.on('get-config', (event, data) => {
