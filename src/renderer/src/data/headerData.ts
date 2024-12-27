@@ -1,3 +1,16 @@
+/**
+ * @fileoverview Defines the header configuration for the data table
+ */
+
+/**
+ * Array of header objects that define the columns in the data table
+ * Each header object contains:
+ * @property {string} title - Display name of the column
+ * @property {string} key - Unique identifier for the column
+ * @property {string} value - Path to the data value in the source object
+ * @property {boolean} [sortable] - Whether the column is sortable (optional)
+ * @property {string} [align] - Text alignment for the column (optional)
+ */
 import { Header } from "src/models";
 
 export const headerData: Header[] = [

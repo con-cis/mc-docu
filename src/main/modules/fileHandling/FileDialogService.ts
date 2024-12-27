@@ -1,5 +1,15 @@
+/**
+ * File dialog utility functions for Electron application
+ */
+
 import { BrowserWindow, dialog } from 'electron'
 
+/**
+ * Opens a file selection dialog that allows choosing XML or JSON files
+ * @returns Promise that resolves to dialog result containing:
+ * - canceled: boolean indicating if dialog was canceled
+ * - filePaths: array of selected file paths, empty if canceled
+ */
 export function openFileDialog(): Promise<
   Electron.OpenDialogReturnValue | { canceled: boolean; filePaths: [] }
 > {
@@ -15,6 +25,12 @@ export function openFileDialog(): Promise<
   }
 }
 
+/**
+ * Opens a file save dialog that allows saving JSON files
+ * @returns Promise that resolves to dialog result containing:
+ * - canceled: boolean indicating if dialog was canceled
+ * - filePath: selected save path, empty if canceled
+ */
 export function saveFileDialog(): Promise<
   Electron.SaveDialogReturnValue | { canceled: boolean; filePath: [] }
 > {
