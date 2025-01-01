@@ -41,7 +41,7 @@
     "@electron-toolkit/tsconfig": "^1.0.1",
     "@mdi/font": "^7.4.47",
     "@rushstack/eslint-patch": "^1.10.4",
-    "@types/node": "^22.10.2",
+    "@types/node": "^22.10.3",
     "@types/xml2js": "^0.4.14",
     "@typescript-eslint/eslint-plugin": "^8.18.2",
     "@vitejs/plugin-vue": "^5.2.1",
