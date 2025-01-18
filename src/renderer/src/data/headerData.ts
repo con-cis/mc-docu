@@ -11,7 +11,7 @@
  * @property {boolean} [sortable] - Whether the column is sortable (optional)
  * @property {string} [align] - Text alignment for the column (optional)
  */
-import { Header } from "src/models";
+import { Header } from 'src/models'
 
 export const headerData: Header[] = [
   { title: 'Name', key: 'name', value: 'name' },

@@ -12,5 +12,5 @@ export interface Header {
   key: string
   value: string
   sortable?: boolean
-  align?: "start" | "end" | "center" | undefined
+  align?: 'start' | 'end' | 'center' | undefined
 }

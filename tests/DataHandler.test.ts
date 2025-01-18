@@ -15,7 +15,7 @@ describe('DataHandler', async () => {
   beforeEach(() => {
     // Reset the singleton instance before each test
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (DataHandler as any).instance = null
+    ;(DataHandler as any).instance = null
     dataHandler = DataHandler.getInstance()
   })
 

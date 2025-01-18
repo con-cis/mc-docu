@@ -10,7 +10,6 @@
   "repository": {
     "url": "https://github.com/con-cis/mc-docu"
   },
-  "type": "module",
   "scripts": {
     "format": "prettier --write .",
     "test": "vitest",

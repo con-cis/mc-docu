@@ -11,7 +11,7 @@ describe('JsonProcessingService', () => {
 
     const validJson = JSON.stringify({
       extractedData: jsonData.extractedData,
-      metadata: jsonData.metadata,
+      metadata: jsonData.metadata
     })
 
     const result = await processJsonFile(validJson)

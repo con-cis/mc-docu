@@ -14,7 +14,7 @@ export function isJSON(content: string): boolean {
 
 /**
  * Checks if a string contains XML by looking for opening tags
- * @param {string} content - The string to check 
+ * @param {string} content - The string to check
  * @returns {boolean} True if the string appears to be XML, false otherwise
  */
 export function isXML(content: string): boolean {
