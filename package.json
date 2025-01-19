@@ -41,7 +41,7 @@
     "@electron-toolkit/eslint-config-ts": "^2.0.0",
     "@electron-toolkit/tsconfig": "^1.0.1",
     "@mdi/font": "^7.4.47",
-    "@rushstack/eslint-patch": "^1.10.4",
+    "@rushstack/eslint-patch": "^1.10.5",
     "@types/node": "^22.10.2",
     "@types/xml2js": "^0.4.14",
     "@typescript-eslint/eslint-plugin": "^8.20.0",
