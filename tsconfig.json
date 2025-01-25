@@ -21,7 +21,7 @@
     "typeRoots": ["./node_modules/@types", "./types"],  // Specify type definition locations
     "jsx": "react-jsx"                                  // Use React JSX transform
   },
-  "include": ["src", "tests"],                           // Files to be included
+  "include": ["src", "tests", "eslint.config.ts"],       // Files to be included
   "exclude": ["node_modules", "dist"],                   // Files to be excluded
   "references": [
     {
