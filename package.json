@@ -32,7 +32,7 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^3.0.0",
-    "electron-updater": "^6.5.0",
+    "electron-updater": "^6.6.0",
     "globals": "^15.15.0",
     "vuetify": "^3.7.14",
     "xml2js": "^0.6.2"
