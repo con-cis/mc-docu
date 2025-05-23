@@ -30,7 +30,7 @@
     "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
-    "@electron-toolkit/preload": "^3.0.1",
+    "@electron-toolkit/preload": "^3.0.2",
     "@electron-toolkit/utils": "^3.0.0",
     "electron-updater": "^6.6.3",
     "globals": "^15.15.0",
