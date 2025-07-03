@@ -34,7 +34,7 @@
     "@electron-toolkit/utils": "^4.0.0",
     "electron-updater": "^6.6.4",
     "globals": "^15.15.0",
-    "vuetify": "^3.8.7",
+    "vuetify": "^3.8.9",
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
