@@ -1,22 +1,25 @@
 name: CI
 
 on:
+  pull_request:
+    branches:
+      - master
   pull_request_target:
     branches:
       - master
 
 permissions:
+  contents: read
   pull-requests: write
 
 jobs:
-  job1:
+  # --- Job: Check for not allowed file changes (Safe, no checkout) ---
+  check-not-allowed:
+    if: github.event_name == 'pull_request_target'
     name: Check Not Allowed File Changes
     runs-on: ubuntu-latest
-    outputs:
-      markdown_change: ${{ steps.filter_markdown.outputs.change }}
-      markdown_files: ${{ steps.filter_markdown.outputs.change_files }}
     steps:
-      - name: Check Not Allowed File Changes
+      - name: Check file paths
         uses: dorny/paths-filter@v2
         id: filter_not_allowed
         with:
@@ -27,33 +30,26 @@ jobs:
               - 'yarn.lock'
               - 'pnpm-lock.yaml'
 
-      # ref: https://github.com/github/docs/blob/main/.github/workflows/triage-unallowed-contributions.yml
       - name: Comment About Changes We Can't Accept
-        if: ${{ steps.filter_not_allowed.outputs.change == 'true' }}
+        if: steps.filter_not_allowed.outputs.change == 'true'
         uses: actions/github-script@v6
         with:
-          script:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "🚫 Your PR includes changes to lock files (`package-lock.json`, `yarn.lock`, or `pnpm-lock.yaml`), which are not allowed. Please remove them."
+            })
 
-      - name: Check Not Linted Markdown
-        if: ${{ always() }}
-        uses: dorny/paths-filter@v2
-        id: filter_markdown
-        with:
-          list-files: shell
-          filters: |
-            change:
-              - added|modified: '*.md'
-
-  job2:
+  # --- Job: Markdown Lint (Safe, runs in PR context) ---
+  lint-markdown:
+    if: github.event_name == 'pull_request'
     name: Lint Markdown
     runs-on: ubuntu-latest
-    needs: job1
-    if: ${{ always() && needs.job1.outputs.markdown_change == 'true' }}
     steps:
-      - name: Checkout Code
+      - name: Checkout PR code
         uses: actions/checkout@v3
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Lint markdown
-        run: npx markdownlint-cli ${{ needs.job1.outputs.markdown_files }} --ignore node_modules
+      - name: Lint Markdown files
+        run: npx markdownlint-cli '**/*.md' --ignore node_modules
