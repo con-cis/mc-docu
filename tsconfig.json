@@ -10,7 +10,7 @@
     "strict": true,                                     // Enable all strict type-checking options
     "forceConsistentCasingInFileNames": true,           // Enforce consistent file naming
     "noFallthroughCasesInSwitch": true,                 // Report errors for fallthrough cases in switch statements
-    "moduleResolution": "node",                         // Use Node.js module resolution
+    "moduleResolution": "bundler",                      // Use Node.js module resolution
     "resolveJsonModule": true,                          // Include .json files as modules
     "isolatedModules": true,                            // Ensure each file is treated as a separate module
     "noEmit": true,                                     // Do not emit outputs
