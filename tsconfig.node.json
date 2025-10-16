@@ -1,24 +1,21 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "NodeNext",
-    "moduleResolution": "nodenext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "strict": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "noEmit": true,
-    "composite": true,
     "types": ["node"]
   },
   "include": [
     "electron.vite.config.*",
     "src/main/**/*",
-    "src/types/**/*",
+    "src/preload/**/*",
     "src/classes/**/*",
     "src/models/**/*",
-    "src/enums/**/*",
-    "src/preload/*",
-    "src/enums"
+    "src/types/**/*"
   ]
 }
