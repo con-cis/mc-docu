@@ -8,7 +8,7 @@
           "id": "ef7bb8c3-af5f-4a9c-bccc-5a94c1aaaa9a",
           "connectorName": "sourceConnector",
           "transportName": "HTTP Listener",
-          "type": "destination",
+          "type": "source",
           "enabled": "true",
           "inboundDataType": "XML",
           "outboundDataType": "HL7V2",
