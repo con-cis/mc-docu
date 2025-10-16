@@ -4,6 +4,7 @@ import {
   ConnectorData,
   ChannelData,
   DestinationConnectorData,
+  SourceConnectorData,
   ServerConfiguration
 } from '../../../models/'
 import xml2js from 'xml2js'
@@ -75,6 +76,7 @@ function extractProperties(data: any[]): ExtractedData {
       name: channelData.name[0],
       id: channelData.id[0],
       sourceConnector: {
+        type: ConnectorType.Source, // Required by ChannelData model
         id: channelData.id[0],
         connectorName: sourceConnectorData.name[0],
         transportName: sourceConnectorData.transportName[0],
@@ -84,6 +86,7 @@ function extractProperties(data: any[]): ExtractedData {
       destinationConnectors: destinationConnectorsData.map(
         (destinationConnectorData: any) => {
           return {
+            type: ConnectorType.Destination, // Required by ChannelData model
             connectorName: destinationConnectorData.name[0],
             id: channelData.id[0],
             enabled: destinationConnectorData.enabled[0],
