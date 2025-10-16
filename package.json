@@ -7,6 +7,7 @@
   "main": "./out/main/index.js",
   "author": "Thomas Loy",
   "homepage": "https://github.com/con-cis/mc-docu",
+  "type": "module",
   "repository": {
     "url": "https://github.com/con-cis/mc-docu"
   },
