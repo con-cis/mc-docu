@@ -21,8 +21,14 @@ export async function processXmlFile(
 ): Promise<{ extractedData: ExtractedData; metadata: MetaData }> {
   try {
     const result = await parseXmlData(xmlData)
-    const extractedData = extractProperties(result.serverConfiguration.channels[0].channel)
-    const metadata = {
+    // Add runtime check for expected structure
+    const channelsArray =
+      Array.isArray(result.serverConfiguration.channels) &&
+      result.serverConfiguration.channels[0]?.channel
+        ? result.serverConfiguration.channels[0].channel
+        : []
+    const extractedData = extractProperties(channelsArray)
+    const metadata: MetaData = {
       date: result.serverConfiguration.date[0],
       version: result.serverConfiguration.$.version
     }
@@ -57,11 +63,11 @@ function parseXmlData(xmlData: string): Promise<ServerConfiguration> {
 
 /**
  * Extract properties from parsed data.
- * @param data - The parsed XML data.
+ * @param data - The parsed XML data (array of channel data).
  * @returns Extracted data with typed structure.
  */
-function extractProperties(data): ExtractedData {
-  const channels: ChannelData[] = data.map((channelData) => {
+function extractProperties(data: any[]): ExtractedData {
+  const channels: ChannelData[] = data.map((channelData: any) => {
     const sourceConnectorData = channelData.sourceConnector[0]
     const destinationConnectorsData = channelData.destinationConnectors[0].connector
 
@@ -76,7 +82,7 @@ function extractProperties(data): ExtractedData {
         ...extractConnectorProperties(sourceConnectorData, ConnectorType.Source)
       },
       destinationConnectors: destinationConnectorsData.map(
-        (destinationConnectorData: DestinationConnectorData) => {
+        (destinationConnectorData: any) => {
           return {
             connectorName: destinationConnectorData.name[0],
             id: channelData.id[0],
@@ -98,7 +104,7 @@ function extractProperties(data): ExtractedData {
  * @param type - The connector type.
  * @returns Extracted connector properties with typed structure.
  */
-function extractConnectorProperties(data, type: ConnectorType): ConnectorData {
+function extractConnectorProperties(data: any, type: ConnectorType): ConnectorData {
   const connectorProperties: ConnectorData = {
     inboundDataType: data.transformer?.[0]?.inboundDataType?.[0] ?? '',
     outboundDataType: data.transformer?.[0]?.outboundDataType?.[0] ?? '',
