@@ -7,6 +7,7 @@
   "main": "./out/main/index.js",
   "author": "Thomas Loy",
   "homepage": "https://github.com/con-cis/mc-docu",
+  "type": "module",
   "repository": {
     "url": "https://github.com/con-cis/mc-docu"
   },
@@ -32,21 +33,22 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.2",
     "@electron-toolkit/utils": "^4.0.0",
-    "electron-updater": "^6.6.8",
+    "@swc/core": "^1.13.5",
+    "electron-updater": "^6.6.2",
     "globals": "^16.4.0",
-    "vuetify": "^3.10.4",
+    "vuetify": "^3.10.5",
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
-    "@electron-toolkit/eslint-config": "^2.0.0",
-    "@electron-toolkit/eslint-config-ts": "^3.0.0",
-    "@electron-toolkit/tsconfig": "^1.0.1",
-    "@eslint/js": "^9.30.0",
+    "@electron-toolkit/eslint-config": "^2.1.0",
+    "@electron-toolkit/eslint-config-ts": "^3.1.0",
+    "@electron-toolkit/tsconfig": "^2.0.0",
+    "@eslint/js": "^9.37.0",
     "@mdi/font": "^7.4.47",
-    "@rushstack/eslint-patch": "^1.12.0",
-    "@types/node": "^24.0.10",
+    "@rushstack/eslint-patch": "^1.14.0",
+    "@types/node": "^24.8.0",
     "@types/xml2js": "^0.4.14",
-    "@typescript-eslint/eslint-plugin": "^8.33.0",
+    "@typescript-eslint/eslint-plugin": "^8.46.1",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.6.0",
@@ -64,9 +66,9 @@
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.0",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.0.5",
-    "vue": "^3.5.17",
-    "vue-tsc": "^2.2.10"
+    "vitest": "^3.2.4",
+    "vue": "^3.5.22",
+    "vue-tsc": "^3.1.1"
   },
   "license": "GPLv3",
   "keywords": [
