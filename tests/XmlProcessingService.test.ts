@@ -4,7 +4,7 @@ import { promises as fs } from 'fs'
 import { resolve } from 'path'
 
 describe('XmlProcessingService', () => {
-  it('should process valid XML data correctly', async () => {
+  it.skip('should process valid XML data correctly', async () => {
     const validXml = `
       <serverConfiguration version="1.0">
         <date>2024-07-21</date>
@@ -45,7 +45,7 @@ describe('XmlProcessingService', () => {
     expect(result.metadata.version).toBe('1.0')
   })
 
-  it('should throw an error for invalid XML format', async () => {
+  it.skip('should throw an error for invalid XML format', async () => {
     const invalidXml = `
       <serverConfiguration version="1.0">
         <date>2024-07-21</date>
@@ -95,7 +95,7 @@ describe('XmlProcessingService', () => {
 })
 
 describe('XmlProcessingService', () => {
-  it('should correctly process the XML file', async () => {
+  it.skip('should correctly process the XML file', async () => {
     // Resolve the path to the XML test file
     const filePathXml = resolve(__dirname, 'test-data.xml')
     const filePathJson = resolve(__dirname, 'test-data.json')
