@@ -49,7 +49,7 @@
     "@types/node": "^24.8.0",
     "@types/xml2js": "^0.4.14",
     "@typescript-eslint/eslint-plugin": "^8.46.1",
-    "@vitejs/plugin-vue": "^6.0.1",
+    "@vitejs/plugin-vue": "^6.0.2",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.6.0",
     "cross-env": "^10.1.0",
@@ -67,7 +67,7 @@
     "vite": "^7.2.0",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.2.4",
-    "vue": "^3.5.22",
+    "vue": "^3.5.25",
     "vue-tsc": "^3.1.1"
   },
   "license": "GPLv3",
