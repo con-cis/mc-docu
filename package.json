@@ -33,7 +33,7 @@
     "@electron-toolkit/preload": "^3.0.2",
     "@electron-toolkit/utils": "^4.0.0",
     "@swc/core": "^1.13.5",
-    "electron-updater": "^6.7.0",
+    "electron-updater": "^6.7.2",
     "globals": "^16.5.0",
     "vuetify": "^3.10.11",
     "xml2js": "^0.6.2"
