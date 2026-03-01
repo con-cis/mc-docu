@@ -45,7 +45,7 @@
     "@eslint/js": "^9.39.1",
     "@mdi/font": "^7.4.47",
     "@rushstack/eslint-patch": "^1.15.0",
-    "@types/node": "^24.10.1",
+    "@types/node": "^25.3.3",
     "@types/xml2js": "^0.4.14",
     "@typescript-eslint/eslint-plugin": "^8.46.4",
     "@vitejs/plugin-vue": "^6.0.3",
